@@ -6,7 +6,7 @@ export default function ReviewsSection() {
       <div className="container">
         <div className="section-heading narrow">
           <p className="eyebrow">Reviews</p>
-          <h2>Prova social forte para reforçar confiança antes do contacto.</h2>
+          <h2>Feedback real de clientes.</h2>
         </div>
 
         <div className="reviews-grid">

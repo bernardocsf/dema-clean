@@ -14,76 +14,76 @@ export const company = {
 export const localAreas = [
   {
     name: 'Coimbra',
-    text: 'Serviço frequente com deslocação rápida para pedidos residenciais e automóvel.',
+    text: 'Atendimento rápido por marcação.',
   },
   {
     name: 'Pombal',
-    text: 'Agenda ativa para higienização de estofos, colchões e limpezas automóveis.',
+    text: 'Serviço regular durante a semana.',
   },
   {
     name: 'Condeixa-a-Nova',
-    text: 'Atendimento por marcação para clientes particulares e profissionais.',
+    text: 'Disponível mediante agenda.',
   },
   {
     name: 'Figueira da Foz',
-    text: 'Disponibilidade mediante agenda para serviços de detalhe e higienização.',
+    text: 'Cobertura com confirmação prévia.',
   },
 ]
 
 export const services = [
   {
     title: 'Higienização de sofás',
-    text: 'Limpeza profunda com extração, cuidado com tecidos e recuperação do aspeto do sofá.',
+    text: 'Limpeza profunda e recuperação do aspeto.',
   },
   {
     title: 'Higienização de colchões',
-    text: 'Mais frescura, mais higiene e remoção de sujidade acumulada do uso diário.',
+    text: 'Mais higiene e frescura.',
   },
   {
     title: 'Higienização de carpetes',
-    text: 'Tratamento cuidadoso para revitalizar fibras, melhorar o toque e devolver presença ao espaço.',
+    text: 'Tratamento cuidadoso das fibras.',
   },
   {
     title: 'Estofos de carro',
-    text: 'Interior mais limpo, mais confortável e com atenção total aos detalhes.',
+    text: 'Interior limpo com detalhe.',
   },
   {
     title: 'Limpeza interior e exterior',
-    text: 'Serviço automóvel completo para devolver imagem, brilho e sensação de cuidado.',
+    text: 'Serviço completo no automóvel.',
   },
   {
     title: 'Polimento de óticas',
-    text: 'Recuperação visual das óticas para um acabamento mais limpo, claro e valorizado.',
+    text: 'Óticas mais limpas e claras.',
   },
   {
     title: 'Carrinhos de bebé',
-    text: 'Higienização segura e delicada para superfícies sensíveis e uso frequente.',
+    text: 'Higienização segura e delicada.',
   },
   {
     title: 'Cadeiras auto',
-    text: 'Limpeza especializada para reforçar higiene, conforto e tranquilidade.',
+    text: 'Limpeza especializada.',
   },
 ]
 
 export const features = [
-  'Atendimento por marcação de segunda a sábado',
-  'Resposta rápida para pedidos de orçamento',
-  'Cobertura em Coimbra, Pombal e arredores',
-  'Imagem premium para transmitir confiança imediata',
+  'Marcações de segunda a sábado',
+  'Resposta rápida',
+  'Coimbra, Pombal e região',
+  'Serviço profissional',
 ]
 
 export const process = [
   {
     title: 'Escolhe o serviço',
-    text: 'Seleciona o tipo de limpeza pretendida e indica os detalhes principais do pedido.',
+    text: 'Seleciona o serviço.',
   },
   {
     title: 'Envia a marcação',
-    text: 'A plataforma valida a disponibilidade de segunda a sábado e organiza o teu pedido.',
+    text: 'Preenche o formulário.',
   },
   {
     title: 'Recebe confirmação',
-    text: 'A DEMA Clean entra em contacto para confirmar horário, local e condições do serviço.',
+    text: 'Recebe contacto para confirmar.',
   },
 ]
 
@@ -93,37 +93,36 @@ export const reviews = [
     location: 'Coimbra',
     date: 'Março 2026',
     avatar: 'MS',
-    text: 'O sofá ficou com um aspeto excelente. Atendimento rápido, cuidado no serviço e resultado mesmo muito bom.',
+    text: 'Serviço rápido e ótimo resultado.',
   },
   {
     name: 'Tiago Ramos',
     location: 'Pombal',
     date: 'Fevereiro 2026',
     avatar: 'TR',
-    text: 'Levei o carro para limpeza interior e fiquei surpreendido com o nível de detalhe. Recomendo sem hesitar.',
+    text: 'Muito detalhe e excelente limpeza.',
   },
   {
     name: 'Inês Monteiro',
     location: 'Coimbra',
     date: 'Janeiro 2026',
     avatar: 'IM',
-    text: 'Muito profissionais, pontuais e atenciosos. Nota-se que trabalham com rigor e brio.',
+    text: 'Profissionais, pontuais e cuidadosos.',
   },
 ]
 
 export const faqs = [
   {
     question: 'Quanto custa o serviço?',
-    answer:
-      'O valor depende do tipo de serviço, dimensão e nível de sujidade. Envia o pedido e recebes orçamento rápido por WhatsApp.',
+    answer: 'Depende do serviço. Envia pedido para orçamento rápido.',
   },
   {
     question: 'Em quanto tempo recebo resposta?',
-    answer: 'Normalmente no próprio dia útil. Para pedidos urgentes, assinala urgência no formulário.',
+    answer: 'Normalmente no próprio dia útil.',
   },
   {
     question: 'Deslocam-se fora de Coimbra?',
-    answer: 'Sim. Atendemos Coimbra, Pombal e zonas próximas mediante disponibilidade de agenda.',
+    answer: 'Sim, mediante agenda.',
   },
   {
     question: 'Que formas de pagamento aceitam?',
@@ -131,8 +130,7 @@ export const faqs = [
   },
   {
     question: 'Posso enviar fotos antes de confirmar?',
-    answer:
-      'Sim. O formulário permite anexar imagens para acelerar o orçamento e tornar a proposta mais precisa.',
+    answer: 'Podes enviar fotos diretamente no WhatsApp.',
   },
 ]
 

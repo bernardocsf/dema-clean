@@ -6,11 +6,7 @@ export default function ContactSection() {
       <div className="container contact-layout">
         <div className="contact-main card-glow">
           <p className="eyebrow">Contactos</p>
-          <h2>Pronto para receber pedidos, dúvidas e orçamentos.</h2>
-          <p>
-            Todos os pontos de contacto estão visíveis, claros e preparados para ação imediata. O
-            objetivo é simples: facilitar o primeiro passo do cliente.
-          </p>
+          <h2>Contacto rápido, sem complicações.</h2>
         </div>
 
         <div className="contact-grid">

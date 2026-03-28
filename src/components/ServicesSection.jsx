@@ -6,11 +6,7 @@ export default function ServicesSection() {
       <div className="container">
         <div className="section-heading">
           <p className="eyebrow">Serviços</p>
-          <h2>Tudo pensado para valorizar a tua casa, o teu carro e a confiança no serviço.</h2>
-          <p>
-            Uma seleção clara, premium e objetiva, para o cliente perceber imediatamente o que a
-            DEMA Clean faz e sentir segurança para avançar.
-          </p>
+          <h2>Escolhe o serviço e marca em minutos.</h2>
         </div>
 
         <div className="services-grid">

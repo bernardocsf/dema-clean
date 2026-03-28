@@ -2,9 +2,6 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import TrustBar from './components/TrustBar'
 import ServicesSection from './components/ServicesSection'
-import LocalAreasSection from './components/LocalAreasSection'
-import ExperienceSection from './components/ExperienceSection'
-import ProcessSection from './components/ProcessSection'
 import BookingSection from './components/BookingSection'
 import ReviewsSection from './components/ReviewsSection'
 import FAQSection from './components/FAQSection'
@@ -24,9 +21,6 @@ export default function App() {
         <Hero />
         <TrustBar />
         <ServicesSection />
-        <LocalAreasSection />
-        <ExperienceSection />
-        <ProcessSection />
         <BookingSection />
         <ReviewsSection />
         <FAQSection />

@@ -8,12 +8,9 @@ export default function Hero() {
       <div className="container hero-layout">
         <div>
           <p className="eyebrow">Higienização profissional em casa e no automóvel</p>
-          <h1>
-            Limpeza profunda com imagem premium, resposta rápida e confiança desde o primeiro clique.
-          </h1>
+          <h1>Limpeza profissional com resposta rápida.</h1>
           <p className="hero-text">
-            Na DEMA Clean, o teu carro e a tua casa recebem o mesmo rigor. Higienização de sofás,
-            colchões, carpetes, estofos de carro, limpeza interior e exterior e polimento de óticas.
+            Sofás, colchões, carpetes e automóvel. Simples, rápido e com qualidade.
           </p>
 
           <div className="hero-actions">

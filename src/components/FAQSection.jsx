@@ -6,7 +6,7 @@ export default function FAQSection() {
       <div className="container">
         <div className="section-heading narrow">
           <p className="eyebrow">Perguntas frequentes</p>
-          <h2>Respostas rápidas para remover objeções e facilitar a decisão.</h2>
+          <h2>Dúvidas rápidas, respostas diretas.</h2>
         </div>
 
         <div className="faq-list">

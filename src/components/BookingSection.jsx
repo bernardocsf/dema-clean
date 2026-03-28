@@ -6,8 +6,12 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { company, services } from '../data/content'
 
 const categories = ['Casa', 'Automóvel', 'Bebé e Infantil', 'Outro']
-const urgencyOptions = ['Normal', 'Urgente (24h)', 'Muito urgente (Hoje)']
-const contactWindows = ['09:00-12:00', '12:00-15:00', '15:00-19:00', 'Depois das 19:00']
+const servicesByCategory = {
+  Casa: ['Higienização de sofás', 'Higienização de colchões', 'Higienização de carpetes'],
+  'Automóvel': ['Estofos de carro', 'Limpeza interior e exterior', 'Polimento de óticas'],
+  'Bebé e Infantil': ['Carrinhos de bebé', 'Cadeiras auto'],
+  Outro: services.map((service) => service.title),
+}
 
 function getMinDate() {
   const now = new Date()
@@ -21,16 +25,28 @@ function isSunday(dateValue) {
 }
 
 function formatPhoneInput(value) {
-  const digits = value.replace(/\D/g, '').slice(0, 9)
-  if (digits.length <= 3) return digits
-  if (digits.length <= 6) return `${digits.slice(0, 3)} ${digits.slice(3)}`
-  return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`
+  return value.replace(/[^\d+\s()-]/g, '').slice(0, 20)
 }
 
 function formatPostalCodeInput(value) {
   const digits = value.replace(/\D/g, '').slice(0, 7)
   if (digits.length <= 4) return digits
   return `${digits.slice(0, 4)}-${digits.slice(4)}`
+}
+
+function normalizeGermanPhone(value) {
+  const compact = value.replace(/[\s()-]/g, '')
+  if (!compact) return ''
+
+  if (compact.startsWith('+49')) return compact
+  if (compact.startsWith('0049')) return `+${compact.slice(2)}`
+  if (compact.startsWith('49')) return `+${compact}`
+  if (compact.startsWith('0')) return `+49${compact.slice(1)}`
+  return compact
+}
+
+function isValidGermanPhone(value) {
+  return /^\+49\d{7,13}$/.test(value)
 }
 
 function getGoogleCalendarUrl({ date, time, service, location }) {
@@ -63,14 +79,14 @@ function getGoogleCalendarUrl({ date, time, service, location }) {
 
 export default function BookingSection() {
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || company.turnstileSiteKey
+  const initialCategory = categories[0]
+  const initialService = servicesByCategory[initialCategory][0]
 
   const [form, setForm] = useState({
     name: '',
     phone: '',
-    category: categories[0],
-    service: services[0].title,
-    urgency: urgencyOptions[0],
-    contactWindow: contactWindows[0],
+    category: initialCategory,
+    service: initialService,
     date: null,
     time: '10:00',
     address: '',
@@ -85,6 +101,7 @@ export default function BookingSection() {
   const [bookingSummary, setBookingSummary] = useState(null)
 
   const minDate = useMemo(() => getMinDate(), [])
+  const availableServices = servicesByCategory[form.category] || servicesByCategory.Outro
 
   function updateField(event) {
     const { name, value, type, checked } = event.target
@@ -101,6 +118,16 @@ export default function BookingSection() {
 
     if (type === 'checkbox') {
       setForm((current) => ({ ...current, [name]: checked }))
+      return
+    }
+
+    if (name === 'category') {
+      const nextServices = servicesByCategory[value] || servicesByCategory.Outro
+      setForm((current) => ({
+        ...current,
+        category: value,
+        service: nextServices.includes(current.service) ? current.service : nextServices[0],
+      }))
       return
     }
 
@@ -128,7 +155,7 @@ export default function BookingSection() {
     const turnstileTokenInput = formElement.elements.namedItem('cf-turnstile-response')
     const turnstileToken = turnstileTokenInput instanceof HTMLInputElement ? turnstileTokenInput.value : ''
 
-    const cleanPhone = form.phone.replace(/\D/g, '')
+    const normalizedPhone = normalizeGermanPhone(form.phone)
     const cleanPostal = form.postalCode.replace(/\D/g, '')
 
     if (isSunday(form.date)) {
@@ -143,8 +170,8 @@ export default function BookingSection() {
       return
     }
 
-    if (cleanPhone.length !== 9) {
-      setStatus('Insere um telefone válido com 9 dígitos.')
+    if (!isValidGermanPhone(normalizedPhone)) {
+      setStatus('Insere um número da Alemanha válido (ex.: +49 1512 3456789).')
       setStatusType('error')
       return
     }
@@ -168,11 +195,18 @@ export default function BookingSection() {
     }
 
     const formattedDate = format(form.date, 'yyyy-MM-dd')
-    const locationLine = `${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}`
+    const locationLine = [
+      form.address,
+      `Nº ${form.doorNumber}`,
+      [form.postalCode, form.locality].filter(Boolean).join(' '),
+    ]
+      .filter(Boolean)
+      .join(', ')
+
     const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL || company.bookingsWebhookUrl
 
     const message = encodeURIComponent(
-      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\n\nNome: ${form.name}\nTelefone: ${form.phone}\nMelhor horário de contacto: ${form.contactWindow}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
+      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\n\nNome: ${form.name}\nTelefone: ${normalizedPhone}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
     )
 
     const googleCalendarUrl = getGoogleCalendarUrl({
@@ -185,11 +219,10 @@ export default function BookingSection() {
     setBookingSummary({
       name: form.name,
       service: form.service,
-      urgency: form.urgency,
       date: formattedDate,
       time: form.time,
       location: locationLine,
-      phone: form.phone,
+      phone: normalizedPhone,
       calendarUrl: googleCalendarUrl,
     })
 
@@ -197,11 +230,9 @@ export default function BookingSection() {
       try {
         const payload = {
           name: form.name,
-          phone: form.phone,
+          phone: normalizedPhone,
           category: form.category,
           service: form.service,
-          urgency: form.urgency,
-          contactWindow: form.contactWindow,
           date: formattedDate,
           time: form.time,
           address: form.address,
@@ -213,7 +244,6 @@ export default function BookingSection() {
           turnstileToken,
         }
 
-        // Sem Content-Type custom para evitar preflight/CORS com Apps Script.
         await fetch(webhookUrl, {
           method: 'POST',
           body: JSON.stringify(payload),
@@ -262,7 +292,7 @@ export default function BookingSection() {
             <article className="booking-summary card-glow">
               <strong>Resumo do pedido</strong>
               <p>
-                {bookingSummary.name} pediu <b>{bookingSummary.service}</b> ({bookingSummary.urgency}) para {bookingSummary.date} às {bookingSummary.time}.
+                {bookingSummary.name} pediu <b>{bookingSummary.service}</b> para {bookingSummary.date} às {bookingSummary.time}.
               </p>
               <p>Morada: {bookingSummary.location}</p>
               <p>Contacto: {bookingSummary.phone}</p>
@@ -281,7 +311,14 @@ export default function BookingSection() {
             </label>
             <label>
               <span>Telefone</span>
-              <input name="phone" value={form.phone} onChange={updateField} placeholder="Ex.: 966 841 525" required />
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={updateField}
+                placeholder="Ex.: +49 1512 3456789"
+                inputMode="tel"
+                required
+              />
             </label>
           </div>
 
@@ -299,32 +336,9 @@ export default function BookingSection() {
             <label>
               <span>Serviço</span>
               <select className="booking-select" name="service" value={form.service} onChange={updateField}>
-                {services.map((service) => (
-                  <option key={service.title} value={service.title}>
-                    {service.title}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          <div className="field-grid two-columns">
-            <label>
-              <span>Urgência</span>
-              <select className="booking-select" name="urgency" value={form.urgency} onChange={updateField}>
-                {urgencyOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span>Melhor horário de contacto</span>
-              <select className="booking-select" name="contactWindow" value={form.contactWindow} onChange={updateField}>
-                {contactWindows.map((windowOption) => (
-                  <option key={windowOption} value={windowOption}>
-                    {windowOption}
+                {availableServices.map((serviceTitle) => (
+                  <option key={serviceTitle} value={serviceTitle}>
+                    {serviceTitle}
                   </option>
                 ))}
               </select>
@@ -377,7 +391,7 @@ export default function BookingSection() {
             </label>
             <label>
               <span>Localidade</span>
-              <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Coimbra" required />
+              <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Berlim (opcional)" />
             </label>
           </div>
 
