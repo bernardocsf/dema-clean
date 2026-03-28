@@ -342,15 +342,34 @@ p {
   background: rgba(255,255,255,0.02);
 }
 
-.trust-grid {
-  grid-template-columns: repeat(4, 1fr);
+.trust-marquee {
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
-.trust-grid div {
+.trust-track {
+  display: flex;
+  width: max-content;
+  animation: trust-marquee 28s linear infinite;
+}
+
+.trust-group {
+  display: flex;
+  gap: 18px;
+  flex-shrink: 0;
+  padding-right: 18px;
+}
+
+.trust-item {
+  min-width: 280px;
   padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.03);
 }
 
-.trust-grid strong,
+.trust-item strong,
 .contact-card strong,
 .review-card strong,
 .mini-card strong,
@@ -359,11 +378,21 @@ p {
   display: block;
 }
 
-.trust-grid span,
+.trust-item span,
 .mini-card span,
 .contact-card span {
   color: var(--muted);
   margin-top: 6px;
+}
+
+@keyframes trust-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .section-heading {
@@ -726,7 +755,6 @@ textarea:focus-visible {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .trust-grid,
   .reviews-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -743,7 +771,6 @@ textarea:focus-visible {
   .contact-grid,
   .mini-grid,
   .hero-stats,
-  .trust-grid,
   .reviews-grid {
     grid-template-columns: 1fr;
   }
@@ -776,6 +803,14 @@ textarea:focus-visible {
 
   .areas-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trust-item {
+    min-width: 240px;
+  }
+
+  .trust-track {
+    animation-duration: 22s;
   }
 
   .booking-card input[type='time'] {
