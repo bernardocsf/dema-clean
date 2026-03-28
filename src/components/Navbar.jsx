@@ -17,7 +17,6 @@ export default function Navbar() {
         <nav className="nav-links" aria-label="Navegação principal">
           <a href="#servicos">Serviços</a>
           <a href="#reviews">Reviews</a>
-          <a href="#ferramentas">Ferramentas</a>
           <a href="#contactos">Contactos</a>
         </nav>
 
