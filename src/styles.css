@@ -430,6 +430,10 @@ textarea {
   display: block;
   width: 100%;
   max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .booking-select {
@@ -584,6 +588,12 @@ textarea {
 
   .section {
     padding: 76px 0;
+  }
+
+  .booking-card input[type='time'] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 }
 
