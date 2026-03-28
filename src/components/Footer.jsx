@@ -1,15 +1,19 @@
-function Footer() {
+import { company } from '../data/content'
+
+export default function Footer() {
   return (
     <footer className="footer">
       <div className="container footer-inner">
         <div>
-          <strong>DEMA Clean</strong>
-          <p>Tá sujo? Relaxa, a DEMA despacha!</p>
+          <strong>{company.name}</strong>
+          <p>{company.tagline}</p>
         </div>
-        <p>Projeto frontend preparado para evolução em Visual Studio Code.</p>
+        <div className="footer-links">
+          <a href={company.phoneLink}>{company.phone}</a>
+          <a href={company.emailLink}>{company.email}</a>
+          <a href={company.instagram} target="_blank" rel="noreferrer">{company.instagramHandle}</a>
+        </div>
       </div>
     </footer>
   )
 }
-
-export default Footer

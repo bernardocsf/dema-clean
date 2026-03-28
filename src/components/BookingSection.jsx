@@ -1,142 +1,140 @@
 import { useMemo, useState } from 'react'
-import { CalendarClock, CircleAlert, Send } from 'lucide-react'
 import SectionTitle from './SectionTitle'
-import { services, timeSlots } from '../data/content'
+import { bookingServices, company } from '../data/content'
 
-const initialState = {
-  name: '',
-  phone: '',
-  area: 'Coimbra',
-  service: 'Sofás',
-  date: '',
-  time: '09:00',
-  details: '',
+function formatDate(dateValue) {
+  if (!dateValue) return 'Sem data escolhida'
+  const date = new Date(`${dateValue}T12:00:00`)
+  return new Intl.DateTimeFormat('pt-PT', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+  }).format(date)
 }
 
-function BookingSection() {
-  const [formData, setFormData] = useState(initialState)
-  const [message, setMessage] = useState('')
+export default function BookingSection() {
+  const [form, setForm] = useState({
+    name: '',
+    service: bookingServices[0],
+    date: '',
+    time: '10:00',
+    zone: 'Coimbra',
+    details: '',
+  })
 
-  const minimumDate = useMemo(() => new Date().toISOString().split('T')[0], [])
+  const dayStatus = useMemo(() => {
+    if (!form.date) return { valid: true, message: 'Escolhe uma data entre segunda e sábado.' }
+    const day = new Date(`${form.date}T12:00:00`).getDay()
+    if (day === 0) {
+      return { valid: false, message: 'Domingo está indisponível. Seleciona uma data de segunda a sábado.' }
+    }
+    return { valid: true, message: `Disponível para ${formatDate(form.date)}.` }
+  }, [form.date])
 
-  const onChange = (event) => {
+  function updateField(event) {
     const { name, value } = event.target
-    setFormData((current) => ({ ...current, [name]: value }))
+    setForm((current) => ({ ...current, [name]: value }))
   }
 
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault()
-
-    if (!formData.date) {
-      setMessage('Seleciona uma data para o teu pedido.')
+    if (!dayStatus.valid) {
+      alert('A plataforma só aceita reservas de segunda a sábado.')
       return
     }
 
-    const selectedDate = new Date(`${formData.date}T12:00:00`)
-
-    if (selectedDate.getDay() === 0) {
-      setMessage('As reservas estão disponíveis apenas de segunda a sábado.')
-      return
-    }
-
-    const whatsappMessage = encodeURIComponent(
-      `Olá DEMA Clean!%0A%0ANome: ${formData.name}%0ATelefone: ${formData.phone}%0AZona: ${formData.area}%0AServiço: ${formData.service}%0AData pretendida: ${formData.date}%0AHora pretendida: ${formData.time}%0ADetalhes: ${formData.details || 'Sem detalhes adicionais.'}`,
-    )
-
-    window.open(`https://wa.me/351910879788?text=${whatsappMessage}`, '_blank')
-    setMessage('Pedido preparado com sucesso. Vais ser encaminhado para confirmação por mensagem.')
+    alert('Pedido de reserva registado com sucesso. Esta versão é visual e pronta para integrares backend depois.')
   }
 
   return (
-    <section id="reservas" className="section section-alt">
+    <section className="section section-soft" id="reservas">
       <div className="container booking-layout">
         <div>
           <SectionTitle
             eyebrow="Reservas"
-            title="Uma área de marcação simples, rápida e preparada para conversão."
-            description="A reserva pode depois ser ligada a um backend, Google Calendar, Supabase ou Firebase. Nesta versão, o pedido é enviado por mensagem para agilizar a confirmação."
+            title="Área de marcação desenhada para ser simples, rápida e convincente"
+            text="Nesta versão, o formulário já valida os dias disponíveis e organiza o pedido com aspeto profissional."
           />
-
-          <div className="feature-list">
-            <div>
-              <CalendarClock size={18} /> Disponível de segunda a sábado
-            </div>
-            <div>
-              <CircleAlert size={18} /> Validação automática para bloquear domingos
-            </div>
-            <div>
-              <Send size={18} /> Pedido enviado diretamente para contacto rápido
-            </div>
+          <div className="booking-side glass">
+            <h3>Porque esta secção funciona bem</h3>
+            <ul>
+              <li>Validação de segunda a sábado</li>
+              <li>Escolha clara de serviço, zona e horário</li>
+              <li>Bloco lateral com resumo do pedido</li>
+              <li>Pronta para ligar a email, WhatsApp ou backend</li>
+            </ul>
+            <a href={company.whatsappLink} target="_blank" rel="noreferrer" className="text-link">Falar diretamente no WhatsApp</a>
           </div>
         </div>
 
-        <form className="booking-card" onSubmit={handleSubmit}>
-          <div className="field-grid two-columns">
-            <label>
-              Nome
-              <input name="name" value={formData.name} onChange={onChange} placeholder="O teu nome" required />
-            </label>
-            <label>
-              Telefone
-              <input name="phone" value={formData.phone} onChange={onChange} placeholder="912 345 678" required />
-            </label>
-          </div>
+        <div className="booking-card glass">
+          <form onSubmit={handleSubmit} className="booking-form">
+            <div className="field-grid two">
+              <label>
+                <span>Nome</span>
+                <input name="name" value={form.name} onChange={updateField} placeholder="O teu nome" required />
+              </label>
+              <label>
+                <span>Zona</span>
+                <select name="zone" value={form.zone} onChange={updateField}>
+                  <option>Coimbra</option>
+                  <option>Pombal</option>
+                  <option>Outra zona da região</option>
+                </select>
+              </label>
+            </div>
 
-          <div className="field-grid two-columns">
             <label>
-              Zona
-              <select name="area" value={formData.area} onChange={onChange}>
-                <option>Coimbra</option>
-                <option>Pombal</option>
-                <option>Outra localidade da região</option>
+              <span>Serviço</span>
+              <select name="service" value={form.service} onChange={updateField}>
+                {bookingServices.map((service) => <option key={service}>{service}</option>)}
               </select>
             </label>
 
+            <div className="field-grid two">
+              <label>
+                <span>Data</span>
+                <input type="date" name="date" value={form.date} onChange={updateField} required />
+              </label>
+              <label>
+                <span>Hora</span>
+                <select name="time" value={form.time} onChange={updateField}>
+                  <option>09:00</option>
+                  <option>10:00</option>
+                  <option>11:00</option>
+                  <option>14:00</option>
+                  <option>15:00</option>
+                  <option>16:00</option>
+                  <option>17:00</option>
+                </select>
+              </label>
+            </div>
+
             <label>
-              Serviço
-              <select name="service" value={formData.service} onChange={onChange}>
-                {services.map((service) => (
-                  <option key={service.title}>{service.title}</option>
-                ))}
-              </select>
+              <span>Detalhes</span>
+              <textarea
+                name="details"
+                value={form.details}
+                onChange={updateField}
+                rows="5"
+                placeholder="Ex.: sofá de 3 lugares, manchas visíveis, zona de Coimbra..."
+              />
             </label>
-          </div>
 
-          <div className="field-grid two-columns">
-            <label>
-              Data pretendida
-              <input type="date" name="date" min={minimumDate} value={formData.date} onChange={onChange} required />
-            </label>
-            <label>
-              Hora pretendida
-              <select name="time" value={formData.time} onChange={onChange}>
-                {timeSlots.map((time) => (
-                  <option key={time}>{time}</option>
-                ))}
-              </select>
-            </label>
-          </div>
+            <div className={`booking-status ${dayStatus.valid ? 'ok' : 'error'}`}>
+              {dayStatus.message}
+            </div>
 
-          <label>
-            Detalhes
-            <textarea
-              name="details"
-              value={formData.details}
-              onChange={onChange}
-              rows="5"
-              placeholder="Ex.: sofá com manchas, limpeza interior completa, carrinho de bebé, etc."
-            />
-          </label>
+            <div className="summary-card">
+              <small>Resumo da marcação</small>
+              <strong>{form.service}</strong>
+              <span>{form.zone} · {formatDate(form.date)} · {form.time}</span>
+            </div>
 
-          <button className="btn btn-primary btn-full" type="submit">
-            Pedir marcação
-          </button>
-
-          {message ? <p className="form-message">{message}</p> : null}
-        </form>
+            <button className="btn btn-solid" type="submit">Enviar pedido de reserva</button>
+          </form>
+        </div>
       </div>
     </section>
   )
 }
-
-export default BookingSection

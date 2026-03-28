@@ -1,38 +1,40 @@
-import { Instagram, MapPin, Phone } from 'lucide-react'
 import SectionTitle from './SectionTitle'
+import { company } from '../data/content'
 
-function ContactSection() {
+export default function ContactSection() {
   return (
-    <section id="contactos" className="section section-alt">
+    <section className="section" id="contactos">
       <div className="container contact-layout">
-        <SectionTitle
-          eyebrow="Contactos"
-          title="Tudo o que o cliente precisa para entrar em contacto sem perder tempo."
-          description="A secção final reforça canais diretos, cobertura geográfica e uma chamada para ação clara."
-        />
-
-        <div className="contact-cards">
-          <a className="contact-card" href="tel:+351910879788">
-            <Phone size={22} />
+        <div>
+          <SectionTitle
+            eyebrow="Contactos"
+            title="Fácil de contactar, fácil de converter"
+            text="Também atualizei os teus dados com o novo número e novo email, para deixares esta versão pronta a adaptar e publicar."
+          />
+        </div>
+        <div className="contact-grid">
+          <article className="contact-card glass">
             <span>Telefone</span>
-            <strong>+351 910 879 788</strong>
-          </a>
-
-          <a className="contact-card" href="https://instagram.com/demaclean_" target="_blank" rel="noreferrer">
-            <Instagram size={22} />
+            <a href={company.phoneLink}>{company.phone}</a>
+            <p>Contacto direto para marcações e pedidos rápidos.</p>
+          </article>
+          <article className="contact-card glass">
+            <span>Email</span>
+            <a href={company.emailLink}>{company.email}</a>
+            <p>Ideal para pedidos mais detalhados ou parcerias.</p>
+          </article>
+          <article className="contact-card glass">
             <span>Instagram</span>
-            <strong>@demaclean_</strong>
-          </a>
-
-          <div className="contact-card">
-            <MapPin size={22} />
-            <span>Zona de atuação</span>
-            <strong>Coimbra, Pombal e região</strong>
-          </div>
+            <a href={company.instagram} target="_blank" rel="noreferrer">{company.instagramHandle}</a>
+            <p>Canal visual perfeito para mostrar resultados e captar clientes.</p>
+          </article>
+          <article className="contact-card glass">
+            <span>Zona</span>
+            <strong>{company.location}</strong>
+            <p>Atendimento sujeito a confirmação da localização e disponibilidade.</p>
+          </article>
         </div>
       </div>
     </section>
   )
 }
-
-export default ContactSection

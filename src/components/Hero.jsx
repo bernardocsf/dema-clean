@@ -1,59 +1,54 @@
-import { CalendarDays, MapPin, ShieldCheck, Sparkles } from 'lucide-react'
+import { company, metrics, highlights } from '../data/content'
 
-function Hero() {
+export default function Hero() {
   return (
-    <section id="inicio" className="hero">
+    <section className="hero" id="top">
       <div className="container hero-grid">
         <div>
-          <span className="eyebrow">Digital creator • Coimbra</span>
-          <h1>Higienização profissional para a tua casa e para o teu carro.</h1>
+          <p className="eyebrow">Plataforma premium de limpeza e higienização</p>
+          <h1>
+            A melhor presença digital para uma marca que cuida de <span>casas e carros</span> com rigor.
+          </h1>
           <p className="hero-copy">
-            Na DEMA Clean cuidamos de sofás, colchões, carpetes, estofos de carro,
-            carrinhos de bebé, cadeiras auto e muito mais, com rapidez, rigor e uma
-            imagem moderna que transmite confiança.
+            Na DEMA Clean, o serviço tem de parecer profissional antes, durante e depois da marcação.
+            Esta versão foi pensada para transmitir confiança, facilitar reservas e transformar visitas em
+            pedidos reais.
           </p>
 
           <div className="hero-actions">
-            <a href="#reservas" className="btn btn-primary btn-large">
-              <CalendarDays size={18} /> Marcar serviço
-            </a>
-            <a href="#servicos" className="btn btn-ghost btn-large">
-              Ver serviços
-            </a>
+            <a href="#reservas" className="btn btn-solid">Marcar serviço</a>
+            <a href={company.whatsappLink} className="btn btn-ghost" target="_blank" rel="noreferrer">Pedir orçamento</a>
           </div>
 
-          <div className="hero-points">
-            <div><ShieldCheck size={18} /> Atendimento com foco na confiança</div>
-            <div><Sparkles size={18} /> Resultado visual valorizado</div>
-            <div><MapPin size={18} /> Coimbra, Pombal e região</div>
+          <div className="bullet-grid">
+            {highlights.map((item) => (
+              <div className="bullet-card" key={item}>{item}</div>
+            ))}
           </div>
         </div>
 
-        <div className="hero-card">
-          <div className="hero-card-top">
-            <span>Serviços em destaque</span>
-            <strong>Reservas de 2ª a sábado</strong>
+        <div className="hero-panel glass">
+          <div className="hero-logo-wrap">
+            <img src="/logo.jpg" alt="DEMA Clean" className="hero-logo" />
           </div>
-
-          <ul className="check-list">
-            <li>Higienização de sofás</li>
-            <li>Higienização de colchões</li>
-            <li>Higienização de carpetes</li>
-            <li>Estofos e limpeza automóvel</li>
-            <li>Polimento de óticas</li>
-          </ul>
-
-          <div className="hero-contact-card">
-            <span>Contacto rápido</span>
-            <a href="tel:+351910879788">+351 910 879 788</a>
-            <a href="https://instagram.com/demaclean_" target="_blank" rel="noreferrer">
-              @demaclean_
-            </a>
+          <div className="hero-panel-top">
+            <span className="tag">Imagem premium</span>
+            <span className="tag">Mobile first</span>
+          </div>
+          <div className="metrics-grid">
+            {metrics.map((item) => (
+              <article key={item.label} className="metric-card">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </article>
+            ))}
+          </div>
+          <div className="hero-contact-strip">
+            <a href={company.phoneLink}>{company.phone}</a>
+            <a href={company.emailLink}>{company.email}</a>
           </div>
         </div>
       </div>
     </section>
   )
 }
-
-export default Hero

@@ -1,18 +1,15 @@
-import { MessageCircleMore } from 'lucide-react'
+import { company } from '../data/content'
 
-function FloatingContact() {
+export default function FloatingContact() {
   return (
     <a
-      className="floating-whatsapp"
-      href="https://wa.me/351910879788"
+      href={company.whatsappLink}
+      className="floating-contact"
       target="_blank"
       rel="noreferrer"
-      aria-label="Falar com a DEMA Clean"
+      aria-label="Abrir WhatsApp"
     >
-      <MessageCircleMore size={20} />
-      Falar agora
+      Pedir orçamento
     </a>
   )
 }
-
-export default FloatingContact

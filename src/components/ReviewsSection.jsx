@@ -1,25 +1,20 @@
-import { Star } from 'lucide-react'
-import { reviews } from '../data/content'
 import SectionTitle from './SectionTitle'
+import { reviews } from '../data/content'
 
-function ReviewsSection() {
+export default function ReviewsSection() {
   return (
-    <section id="reviews" className="section">
+    <section className="section" id="reviews">
       <div className="container">
         <SectionTitle
           eyebrow="Reviews"
-          title="Prova social para reforçar confiança e aumentar pedidos de contacto."
-          description="A secção de reviews pode depois ser ligada ao Google, Instagram ou recolha interna de testemunhos."
+          title="Prova social com apresentação premium"
+          text="Uma secção de testemunhos bem desenhada ajuda muito num ramo baseado em confiança, higiene e resultado visível."
+          center
         />
-
         <div className="reviews-grid">
           {reviews.map((review) => (
-            <article className="review-card" key={review.name}>
-              <div className="stars">
-                {Array.from({ length: review.rating }).map((_, index) => (
-                  <Star size={16} key={`${review.name}-${index}`} fill="currentColor" />
-                ))}
-              </div>
+            <article className="review-card glass" key={review.name}>
+              <div className="stars">{'★'.repeat(review.rating)}</div>
               <p>{review.text}</p>
               <strong>{review.name}</strong>
             </article>
@@ -29,5 +24,3 @@ function ReviewsSection() {
     </section>
   )
 }
-
-export default ReviewsSection

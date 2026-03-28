@@ -1,23 +1,23 @@
-import { services } from '../data/content'
 import SectionTitle from './SectionTitle'
+import { services } from '../data/content'
 
-function ServicesSection() {
+export default function ServicesSection() {
   return (
-    <section id="servicos" className="section">
+    <section className="section" id="servicos">
       <div className="container">
         <SectionTitle
           eyebrow="Serviços"
-          title="Limpamos o que precisa de atenção com uma apresentação profissional e clara."
-          description="A plataforma foi pensada para mostrar confiança, variedade de serviços e facilitar o contacto imediato."
+          title="Tudo o que a tua marca precisa de mostrar para vender melhor"
+          text="Organizei os serviços em cartões premium para tornar a navegação clara e rápida, com foco em confiança e decisão imediata do cliente."
         />
 
         <div className="services-grid">
           {services.map((service) => (
-            <article className="service-card" key={service.title}>
-              <span className="service-tag">DEMA Clean</span>
+            <article className="service-card glass" key={service.title}>
+              <span className="service-badge">{service.badge}</span>
               <h3>{service.title}</h3>
-              <p>{service.description}</p>
-              <strong>{service.highlight}</strong>
+              <p>{service.text}</p>
+              <a href="#reservas">Reservar este serviço</a>
             </article>
           ))}
         </div>
@@ -25,5 +25,3 @@ function ServicesSection() {
     </section>
   )
 }
-
-export default ServicesSection

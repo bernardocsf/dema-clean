@@ -1,85 +1,139 @@
+export const company = {
+  name: 'DEMA Clean',
+  tagline: 'Tá sujo? Relaxa, a DEMA despacha!',
+  instagram: 'https://instagram.com/demaclean_',
+  instagramHandle: '@demaclean_',
+  phone: '966 841 525',
+  phoneLink: 'tel:+351966841525',
+  email: 'bernardocoelhoferreira@gmail.com',
+  emailLink: 'mailto:bernardocoelhoferreira@gmail.com',
+  location: 'Coimbra, Pombal e região',
+  whatsappLink: 'https://wa.me/351966841525',
+}
+
 export const services = [
   {
     title: 'Sofás',
-    description: 'Remoção de sujidade, odores e manchas com cuidado pelos tecidos.',
-    highlight: 'Ideal para casas com crianças e animais',
-  },
-  {
-    title: 'Carpetes',
-    description: 'Limpeza profunda para devolver frescura, conforto e melhor aspeto.',
-    highlight: 'Perfeito para renovar ambientes',
+    text: 'Higienização profunda com foco em manchas, odores e recuperação visual do tecido.',
+    badge: 'Casa',
   },
   {
     title: 'Colchões',
-    description: 'Higienização focada na eliminação de ácaros, poeiras e odores.',
-    highlight: 'Mais higiene no teu descanso',
+    text: 'Tratamento mais cuidado para renovar a sensação de limpeza e conforto do teu descanso.',
+    badge: 'Casa',
+  },
+  {
+    title: 'Carpetes',
+    text: 'Limpeza técnica para remover sujidade acumulada e devolver frescura ao ambiente.',
+    badge: 'Casa',
   },
   {
     title: 'Estofos de carro',
-    description: 'Interior automóvel mais limpo, confortável e com melhor apresentação.',
-    highlight: 'Valorização imediata do veículo',
+    text: 'Interior automóvel higienizado com rigor para um aspeto mais limpo e valorizado.',
+    badge: 'Auto',
   },
   {
     title: 'Carrinhos de bebé',
-    description: 'Limpeza segura e cuidadosa para o que mais importa no dia a dia.',
-    highlight: 'Atenção especial a tecidos delicados',
+    text: 'Serviço delicado e minucioso para equipamentos que exigem confiança e detalhe.',
+    badge: 'Família',
   },
   {
     title: 'Cadeiras auto',
-    description: 'Higienização detalhada para garantir limpeza e tranquilidade.',
-    highlight: 'Mais segurança e conforto para a família',
+    text: 'Removemos sujidade acumulada e devolvemos um acabamento mais cuidado.',
+    badge: 'Família',
   },
   {
-    title: 'Limpeza interior e exterior de carro',
-    description: 'Tratamento visual completo para o teu carro voltar a impressionar.',
-    highlight: 'Aspeto cuidado por dentro e por fora',
+    title: 'Limpeza interior e exterior',
+    text: 'Cuidamos do carro por dentro e por fora com o mesmo padrão de exigência.',
+    badge: 'Auto',
   },
   {
     title: 'Polimento de óticas',
-    description: 'Melhora a transparência das óticas e o visual do veículo.',
-    highlight: 'Mais estética e melhor visibilidade',
+    text: 'Melhora o aspeto visual das óticas e valoriza a apresentação do veículo.',
+    badge: 'Auto',
   },
+]
+
+export const highlights = [
+  'Atendimento rápido e direto por WhatsApp',
+  'Reservas disponíveis de segunda a sábado',
+  'Serviço para casa, família e automóvel',
+  'Imagem premium, confiança e proximidade',
+]
+
+export const processSteps = [
+  {
+    step: '01',
+    title: 'Pedido rápido',
+    text: 'O cliente escolhe o serviço, descreve o que precisa e deixa os dados de contacto.',
+  },
+  {
+    step: '02',
+    title: 'Confirmação',
+    text: 'A DEMA entra em contacto, valida a zona, ajusta detalhes e confirma a marcação.',
+  },
+  {
+    step: '03',
+    title: 'Serviço executado',
+    text: 'A intervenção é feita com foco em resultado visual, higiene e boa experiência.',
+  },
+  {
+    step: '04',
+    title: 'Follow-up',
+    text: 'O cliente pode avaliar o serviço e voltar a reservar facilmente numa próxima vez.',
+  },
+]
+
+export const metrics = [
+  { value: '2 zonas-chave', label: 'Coimbra, Pombal e região' },
+  { value: '2 segmentos', label: 'Casa + automóvel' },
+  { value: '2º a sábado', label: 'Janela de reserva ativa' },
+  { value: '1 contacto direto', label: 'Resposta rápida e simples' },
 ]
 
 export const reviews = [
   {
-    name: 'Mariana F.',
+    name: 'Marta, Coimbra',
     rating: 5,
-    text: 'O sofá ficou com outro aspeto. Atendimento rápido, simpático e muito profissional.',
+    text: 'O sofá ficou com outro aspeto. Atendimento muito acessível e super profissional.',
   },
   {
-    name: 'Tiago R.',
+    name: 'Ricardo, Pombal',
     rating: 5,
-    text: 'Fizeram a limpeza dos estofos do carro e o resultado foi excelente. Recomendo.',
+    text: 'Limparam os estofos do carro e fizeram polimento das óticas. Ficou excelente.',
   },
   {
-    name: 'Sofia L.',
+    name: 'Ana, Condeixa',
     rating: 5,
-    text: 'Muito cuidadosos com o colchão e com o carrinho do bebé. Serviço impecável.',
+    text: 'Gostei da rapidez na marcação e do cuidado no serviço. Recomendo sem dúvida.',
   },
 ]
 
 export const faqs = [
   {
-    question: 'Em que zonas trabalham?',
-    answer: 'Coimbra, Pombal e região. Podes pedir confirmação da tua localidade no formulário.',
+    q: 'Que serviços posso reservar online?',
+    a: 'Sofás, colchões, carpetes, estofos de carro, carrinhos de bebé, cadeiras auto, limpeza automóvel e polimento de óticas.',
   },
   {
-    question: 'Aceitam reservas em que dias?',
-    answer: 'De segunda a sábado. O formulário bloqueia automaticamente domingos.',
+    q: 'Em que dias aceitam reservas?',
+    a: 'A plataforma permite pedidos de segunda a sábado. Domingo fica bloqueado.',
   },
   {
-    question: 'Como funciona o pedido de orçamento?',
-    answer: 'O cliente escolhe o serviço, indica a zona, seleciona a data e deixa os contactos para confirmação.',
+    q: 'Atendem apenas em Coimbra?',
+    a: 'Não. A DEMA Clean atua em Coimbra, Pombal e região, mediante confirmação.',
+  },
+  {
+    q: 'A reserva fica logo confirmada?',
+    a: 'O pedido entra na plataforma e depois é validado manualmente para confirmar hora, local e serviço.',
   },
 ]
 
-export const timeSlots = [
-  '09:00',
-  '10:30',
-  '12:00',
-  '14:00',
-  '15:30',
-  '17:00',
-  '18:30',
+export const bookingServices = [
+  'Higienização de sofás',
+  'Higienização de colchões',
+  'Higienização de carpetes',
+  'Higienização de estofos de carro',
+  'Limpeza interior e exterior de carro',
+  'Polimento de óticas',
+  'Carrinhos de bebé / cadeiras auto',
 ]

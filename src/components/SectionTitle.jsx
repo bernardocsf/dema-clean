@@ -1,11 +1,9 @@
-function SectionTitle({ eyebrow, title, description }) {
+export default function SectionTitle({ eyebrow, title, text, center = false }) {
   return (
-    <div className="section-title">
-      {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
+    <div className={`section-title ${center ? 'center' : ''}`}>
+      {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
       <h2>{title}</h2>
-      {description ? <p>{description}</p> : null}
+      {text ? <p className="section-copy">{text}</p> : null}
     </div>
   )
 }
-
-export default SectionTitle

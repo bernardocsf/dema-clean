@@ -1,27 +1,25 @@
 import SectionTitle from './SectionTitle'
 import { faqs } from '../data/content'
 
-function FAQSection() {
+export default function FAQSection() {
   return (
-    <section className="section">
-      <div className="container faq-layout">
+    <section className="section section-soft">
+      <div className="container">
         <SectionTitle
           eyebrow="FAQ"
-          title="Perguntas frequentes que ajudam o cliente a decidir mais depressa."
-          description="Uma boa plataforma deve remover dúvidas antes de o cliente sair da página."
+          title="Perguntas frequentes"
+          text="Uma plataforma forte também tira dúvidas rapidamente e reduz fricção na hora da marcação."
         />
 
-        <div className="faq-list">
-          {faqs.map((faq) => (
-            <details className="faq-item" key={faq.question}>
-              <summary>{faq.question}</summary>
-              <p>{faq.answer}</p>
-            </details>
+        <div className="faq-grid">
+          {faqs.map((item) => (
+            <article key={item.q} className="faq-card glass">
+              <h3>{item.q}</h3>
+              <p>{item.a}</p>
+            </article>
           ))}
         </div>
       </div>
     </section>
   )
 }
-
-export default FAQSection
