@@ -387,6 +387,33 @@ p {
   grid-template-columns: repeat(4, 1fr);
 }
 
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.tool-card {
+  padding: 22px;
+}
+
+.tool-type {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.tool-status {
+  display: inline-flex;
+  margin-top: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 .area-card a {
   display: inline-flex;
   margin-top: 10px;
@@ -568,6 +595,10 @@ textarea {
   margin-top: 2px;
 }
 
+.turnstile-wrap {
+  margin: 8px 0 10px;
+}
+
 .react-datepicker {
   border-radius: 18px;
   overflow: hidden;
@@ -691,6 +722,10 @@ textarea:focus-visible {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .trust-grid,
   .reviews-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -728,6 +763,10 @@ textarea:focus-visible {
 
   .two-columns,
   .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-grid {
     grid-template-columns: 1fr;
   }
 

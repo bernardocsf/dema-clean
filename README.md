@@ -44,6 +44,22 @@ Guia completo para Google Apps Script + Drive:
 
 `docs/google-apps-script.md`
 
+### Tracking, Ads e Anti-spam (opcional)
+
+Podes ativar as integrações por variáveis:
+
+```bash
+VITE_GA_ID=G-XXXXXXXXXX
+VITE_GTM_ID=GTM-XXXXXXX
+VITE_META_PIXEL_ID=123456789012345
+VITE_CLARITY_ID=abcd1234xy
+VITE_TURNSTILE_SITE_KEY=0x4AAAAAAA...
+```
+
+Notas:
+- Sem estas variáveis, o site funciona normalmente.
+- Com `VITE_TURNSTILE_SITE_KEY`, o formulário passa a exigir verificação anti-spam.
+
 ### Deploy GitHub Pages
 
 ```bash

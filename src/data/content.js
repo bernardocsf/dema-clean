@@ -8,6 +8,7 @@ export const company = {
   instagramUrl: 'https://instagram.com/demaclean_',
   area: 'Coimbra, Pombal e região',
   bookingsWebhookUrl: '',
+  turnstileSiteKey: '',
 }
 
 export const localAreas = [
@@ -133,4 +134,15 @@ export const faqs = [
     answer:
       'Sim. O formulário permite anexar imagens para acelerar o orçamento e tornar a proposta mais precisa.',
   },
+]
+
+export const toolRecommendations = [
+  { name: 'Google Analytics 4', type: 'Medição', status: 'Pronto a configurar' },
+  { name: 'Google Tag Manager', type: 'Medição', status: 'Pronto a configurar' },
+  { name: 'Meta Pixel', type: 'Ads / Remarketing', status: 'Pronto a configurar' },
+  { name: 'Microsoft Clarity', type: 'Heatmaps', status: 'Pronto a configurar' },
+  { name: 'Cloudflare Turnstile', type: 'Anti-spam', status: 'Pronto a configurar' },
+  { name: 'Google Sheets + Looker Studio', type: 'Dashboard Leads', status: 'Pronto a configurar' },
+  { name: 'Zapier / Make / n8n', type: 'Automação', status: 'Recomendado' },
+  { name: 'Sentry', type: 'Monitorização de erros', status: 'Recomendado' },
 ]

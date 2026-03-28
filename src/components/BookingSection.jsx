@@ -62,6 +62,8 @@ function getGoogleCalendarUrl({ date, time, service, location }) {
 }
 
 export default function BookingSection() {
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || company.turnstileSiteKey
+
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -122,6 +124,9 @@ export default function BookingSection() {
 
   async function handleSubmit(event) {
     event.preventDefault()
+    const formElement = event.currentTarget
+    const turnstileTokenInput = formElement.elements.namedItem('cf-turnstile-response')
+    const turnstileToken = turnstileTokenInput instanceof HTMLInputElement ? turnstileTokenInput.value : ''
 
     const cleanPhone = form.phone.replace(/\D/g, '')
     const cleanPostal = form.postalCode.replace(/\D/g, '')
@@ -156,12 +161,18 @@ export default function BookingSection() {
       return
     }
 
+    if (turnstileSiteKey && !turnstileToken) {
+      setStatus('Confirma a verificação anti-spam antes de enviar.')
+      setStatusType('error')
+      return
+    }
+
     const formattedDate = format(form.date, 'yyyy-MM-dd')
     const locationLine = `${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}`
     const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL || company.bookingsWebhookUrl
 
     const message = encodeURIComponent(
-      `Pedido de marcação\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\nMelhor horário de contacto: ${form.contactWindow}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${locationLine}\nDetalhes: ${form.notes || '-'}`,
+      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\n\nNome: ${form.name}\nTelefone: ${form.phone}\nMelhor horário de contacto: ${form.contactWindow}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
     )
 
     const googleCalendarUrl = getGoogleCalendarUrl({
@@ -199,6 +210,7 @@ export default function BookingSection() {
           locality: form.locality,
           notes: form.notes || '',
           consent: form.consent,
+          turnstileToken,
         }
 
         // Sem Content-Type custom para evitar preflight/CORS com Apps Script.
@@ -386,6 +398,12 @@ export default function BookingSection() {
               Aceito a política de privacidade e autorizo contacto para orçamento e marcação.
             </span>
           </label>
+
+          {turnstileSiteKey ? (
+            <div className="turnstile-wrap">
+              <div className="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" />
+            </div>
+          ) : null}
 
           <button className="button button-primary wide-button" type="submit">
             Enviar pedido de marcação
