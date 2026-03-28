@@ -4,10 +4,16 @@ Plataforma final da DEMA Clean com:
 - identidade visual premium
 - serviços destacados
 - marcações com validação de segunda a sábado
-- reviews
-- FAQ
+- reviews com local e data
+- FAQ orientada a conversão
 - contactos atualizados
 - logo incluído
+- secção de cobertura local
+- CTA móvel com Ligar + WhatsApp
+- schema SEO LocalBusiness
+- resumo de pedido e atalho para Google Calendar
+- upload de fotos para orçamento
+- consentimento RGPD no formulário
 
 ## Arranque
 
@@ -21,3 +27,25 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## Integrações Opcionais
+
+### Webhook (Google Sheets / Apps Script / CRM)
+
+Define a variável abaixo para receber os pedidos também por POST JSON:
+
+```bash
+VITE_BOOKING_WEBHOOK_URL=https://teu-endpoint-webhook
+```
+
+Sem esta variável, o fluxo principal continua por WhatsApp normalmente.
+
+### Deploy GitHub Pages
+
+```bash
+npm run deploy
+```
+
+URL pública esperada:
+
+`https://bernardocsf.github.io/dema-clean/`

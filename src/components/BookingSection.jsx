@@ -6,6 +6,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { company, services } from '../data/content'
 
 const categories = ['Casa', 'Automóvel', 'Bebé e Infantil', 'Outro']
+const urgencyOptions = ['Normal', 'Urgente (24h)', 'Muito urgente (Hoje)']
+const contactWindows = ['09:00-12:00', '12:00-15:00', '15:00-19:00', 'Depois das 19:00']
 
 function getMinDate() {
   const now = new Date()
@@ -18,12 +20,55 @@ function isSunday(dateValue) {
   return dateValue.getDay() === 0
 }
 
+function formatPhoneInput(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 9)
+  if (digits.length <= 3) return digits
+  if (digits.length <= 6) return `${digits.slice(0, 3)} ${digits.slice(3)}`
+  return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`
+}
+
+function formatPostalCodeInput(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 7)
+  if (digits.length <= 4) return digits
+  return `${digits.slice(0, 4)}-${digits.slice(4)}`
+}
+
+function getGoogleCalendarUrl({ date, time, service, location }) {
+  const [hours, minutes] = time.split(':').map(Number)
+  const start = new Date(date)
+  start.setHours(hours, minutes, 0, 0)
+
+  const end = new Date(start)
+  end.setHours(end.getHours() + 2)
+
+  const toGoogleDate = (value) => {
+    const year = value.getFullYear()
+    const month = String(value.getMonth() + 1).padStart(2, '0')
+    const day = String(value.getDate()).padStart(2, '0')
+    const hour = String(value.getHours()).padStart(2, '0')
+    const minute = String(value.getMinutes()).padStart(2, '0')
+    return `${year}${month}${day}T${hour}${minute}00`
+  }
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: `DEMA Clean - ${service}`,
+    dates: `${toGoogleDate(start)}/${toGoogleDate(end)}`,
+    details: 'Pedido gerado pela plataforma DEMA Clean.',
+    location,
+  })
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`
+}
+
 export default function BookingSection() {
   const [form, setForm] = useState({
     name: '',
     phone: '',
-    categories: [],
-    services: [],
+    category: categories[0],
+    service: services[0].title,
+    urgency: urgencyOptions[0],
+    contactWindow: contactWindows[0],
     date: null,
     time: '10:00',
     address: '',
@@ -31,26 +76,38 @@ export default function BookingSection() {
     postalCode: '',
     locality: '',
     notes: '',
+    consent: false,
   })
   const [status, setStatus] = useState('')
+  const [selectedPhotos, setSelectedPhotos] = useState([])
+  const [bookingSummary, setBookingSummary] = useState(null)
 
   const minDate = useMemo(() => getMinDate(), [])
 
   function updateField(event) {
-    const { name, value } = event.target
+    const { name, value, type, checked } = event.target
+
+    if (name === 'phone') {
+      setForm((current) => ({ ...current, phone: formatPhoneInput(value) }))
+      return
+    }
+
+    if (name === 'postalCode') {
+      setForm((current) => ({ ...current, postalCode: formatPostalCodeInput(value) }))
+      return
+    }
+
+    if (type === 'checkbox') {
+      setForm((current) => ({ ...current, [name]: checked }))
+      return
+    }
+
     setForm((current) => ({ ...current, [name]: value }))
   }
 
-  function toggleMultiField(fieldName, fieldValue) {
-    setForm((current) => {
-      const values = current[fieldName]
-      const nextValues = values.includes(fieldValue)
-        ? values.filter((item) => item !== fieldValue)
-        : [...values, fieldValue]
-
-      return { ...current, [fieldName]: nextValues }
-    })
-    setStatus('')
+  function updatePhotoField(event) {
+    const files = Array.from(event.target.files || [])
+    setSelectedPhotos(files)
   }
 
   function updateDateField(event) {
@@ -66,8 +123,18 @@ export default function BookingSection() {
     setStatus('')
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    const formElement = event.currentTarget
+    const photoInput = formElement.elements.namedItem('photos')
+    const attachedPhotos = photoInput instanceof HTMLInputElement
+      ? Array.from(photoInput.files || [])
+      : []
+
+    setSelectedPhotos(attachedPhotos)
+
+    const cleanPhone = form.phone.replace(/\D/g, '')
+    const cleanPostal = form.postalCode.replace(/\D/g, '')
 
     if (isSunday(form.date)) {
       setStatus('As marcações estão disponíveis apenas de segunda a sábado.')
@@ -79,21 +146,80 @@ export default function BookingSection() {
       return
     }
 
-    if (form.categories.length === 0) {
-      setStatus('Seleciona pelo menos uma categoria.')
+    if (cleanPhone.length !== 9) {
+      setStatus('Insere um telefone válido com 9 dígitos.')
       return
     }
 
-    if (form.services.length === 0) {
-      setStatus('Seleciona pelo menos um serviço.')
+    if (cleanPostal.length !== 7) {
+      setStatus('Insere um código postal válido no formato 0000-000.')
+      return
+    }
+
+    if (!form.consent) {
+      setStatus('Precisas de aceitar a política de privacidade para continuar.')
       return
     }
 
     const formattedDate = format(form.date, 'yyyy-MM-dd')
+    const locationLine = `${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}`
+    const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL
+    const photosLine = attachedPhotos.length > 0
+      ? webhookUrl
+        ? 'Enviadas no formulário'
+        : 'Selecionadas (anexar manualmente no WhatsApp)'
+      : 'Sem fotos anexadas'
 
     const message = encodeURIComponent(
-      `Pedido de marcação\nCategorias: ${form.categories.join(', ')}\nServiços: ${form.services.join(', ')}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}\nDetalhes: ${form.notes || '-'}`,
+      `Pedido de marcação\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\nMelhor horário de contacto: ${form.contactWindow}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${locationLine}\nFotos para orçamento: ${photosLine}\nDetalhes: ${form.notes || '-'}`,
     )
+
+    const googleCalendarUrl = getGoogleCalendarUrl({
+      date: form.date,
+      time: form.time,
+      service: form.service,
+      location: locationLine,
+    })
+
+    setBookingSummary({
+      name: form.name,
+      service: form.service,
+      urgency: form.urgency,
+      date: formattedDate,
+      time: form.time,
+      location: locationLine,
+      phone: form.phone,
+      calendarUrl: googleCalendarUrl,
+      photosCount: attachedPhotos.length,
+    })
+
+    if (webhookUrl) {
+      try {
+        const payload = new FormData()
+        payload.append('name', form.name)
+        payload.append('phone', form.phone)
+        payload.append('category', form.category)
+        payload.append('service', form.service)
+        payload.append('urgency', form.urgency)
+        payload.append('contactWindow', form.contactWindow)
+        payload.append('date', formattedDate)
+        payload.append('time', form.time)
+        payload.append('address', form.address)
+        payload.append('doorNumber', form.doorNumber)
+        payload.append('postalCode', form.postalCode)
+        payload.append('locality', form.locality)
+        payload.append('notes', form.notes || '')
+        payload.append('consent', String(form.consent))
+        attachedPhotos.forEach((photo) => payload.append('photos', photo))
+
+        await fetch(webhookUrl, {
+          method: 'POST',
+          body: payload,
+        })
+      } catch {
+        // Non-blocking: o pedido continua por WhatsApp mesmo que o webhook falhe.
+      }
+    }
 
     window.location.href = `https://wa.me/${company.phoneLink}?text=${message}`
     setStatus('Pedido preparado com sucesso. O WhatsApp foi aberto para envio.')
@@ -124,6 +250,21 @@ export default function BookingSection() {
               <span>{company.area}</span>
             </div>
           </div>
+
+          {bookingSummary ? (
+            <article className="booking-summary card-glow">
+              <strong>Resumo do pedido</strong>
+              <p>
+                {bookingSummary.name} pediu <b>{bookingSummary.service}</b> ({bookingSummary.urgency}) para {bookingSummary.date} às {bookingSummary.time}.
+              </p>
+              <p>Morada: {bookingSummary.location}</p>
+              <p>Contacto: {bookingSummary.phone}</p>
+              <p>Fotos anexadas: {bookingSummary.photosCount}</p>
+              <a href={bookingSummary.calendarUrl} target="_blank" rel="noreferrer">
+                Adicionar ao Google Calendar
+              </a>
+            </article>
+          ) : null}
         </div>
 
         <form className="booking-card card-glow" onSubmit={handleSubmit}>
@@ -134,38 +275,54 @@ export default function BookingSection() {
             </label>
             <label>
               <span>Telefone</span>
-              <input name="phone" value={form.phone} onChange={updateField} required />
+              <input name="phone" value={form.phone} onChange={updateField} placeholder="Ex.: 966 841 525" required />
             </label>
           </div>
 
           <div className="field-grid two-columns">
-            <fieldset className="checkbox-group">
-              <legend>Categoria</legend>
-              {categories.map((category) => (
-                <label key={category} className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={form.categories.includes(category)}
-                    onChange={() => toggleMultiField('categories', category)}
-                  />
-                  <span>{category}</span>
-                </label>
-              ))}
-            </fieldset>
+            <label>
+              <span>Categoria</span>
+              <select className="booking-select" name="category" value={form.category} onChange={updateField}>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Serviço</span>
+              <select className="booking-select" name="service" value={form.service} onChange={updateField}>
+                {services.map((service) => (
+                  <option key={service.title} value={service.title}>
+                    {service.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
 
-            <fieldset className="checkbox-group">
-              <legend>Serviço</legend>
-              {services.map((service) => (
-                <label key={service.title} className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={form.services.includes(service.title)}
-                    onChange={() => toggleMultiField('services', service.title)}
-                  />
-                  <span>{service.title}</span>
-                </label>
-              ))}
-            </fieldset>
+          <div className="field-grid two-columns">
+            <label>
+              <span>Urgência</span>
+              <select className="booking-select" name="urgency" value={form.urgency} onChange={updateField}>
+                {urgencyOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Melhor horário de contacto</span>
+              <select className="booking-select" name="contactWindow" value={form.contactWindow} onChange={updateField}>
+                {contactWindows.map((windowOption) => (
+                  <option key={windowOption} value={windowOption}>
+                    {windowOption}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
 
           <div className="field-grid two-columns">
@@ -219,6 +376,14 @@ export default function BookingSection() {
           </div>
 
           <label>
+            <span>Fotos para orçamento (opcional)</span>
+            <input name="photos" type="file" accept="image/*" multiple onChange={updatePhotoField} />
+          </label>
+          {selectedPhotos.length > 0 ? (
+            <p className="upload-hint">{selectedPhotos.length} foto(s) selecionada(s)</p>
+          ) : null}
+
+          <label>
             <span>Detalhes do pedido</span>
             <textarea
               name="notes"
@@ -227,6 +392,13 @@ export default function BookingSection() {
               onChange={updateField}
               placeholder="Ex.: sofá de 3 lugares, colchão de casal, limpeza interior completa..."
             />
+          </label>
+
+          <label className="consent-row">
+            <input type="checkbox" name="consent" checked={form.consent} onChange={updateField} />
+            <span>
+              Aceito a política de privacidade e autorizo contacto para orçamento e marcação.
+            </span>
           </label>
 
           <button className="button button-primary wide-button" type="submit">

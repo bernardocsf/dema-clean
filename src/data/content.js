@@ -9,6 +9,25 @@ export const company = {
   area: 'Coimbra, Pombal e região',
 }
 
+export const localAreas = [
+  {
+    name: 'Coimbra',
+    text: 'Serviço frequente com deslocação rápida para pedidos residenciais e automóvel.',
+  },
+  {
+    name: 'Pombal',
+    text: 'Agenda ativa para higienização de estofos, colchões e limpezas automóveis.',
+  },
+  {
+    name: 'Condeixa-a-Nova',
+    text: 'Atendimento por marcação para clientes particulares e profissionais.',
+  },
+  {
+    name: 'Figueira da Foz',
+    text: 'Disponibilidade mediante agenda para serviços de detalhe e higienização.',
+  },
+]
+
 export const services = [
   {
     title: 'Higienização de sofás',
@@ -69,29 +88,48 @@ export const process = [
 export const reviews = [
   {
     name: 'Mariana Silva',
+    location: 'Coimbra',
+    date: 'Março 2026',
+    avatar: 'MS',
     text: 'O sofá ficou com um aspeto excelente. Atendimento rápido, cuidado no serviço e resultado mesmo muito bom.',
   },
   {
     name: 'Tiago Ramos',
+    location: 'Pombal',
+    date: 'Fevereiro 2026',
+    avatar: 'TR',
     text: 'Levei o carro para limpeza interior e fiquei surpreendido com o nível de detalhe. Recomendo sem hesitar.',
   },
   {
     name: 'Inês Monteiro',
+    location: 'Coimbra',
+    date: 'Janeiro 2026',
+    avatar: 'IM',
     text: 'Muito profissionais, pontuais e atenciosos. Nota-se que trabalham com rigor e brio.',
   },
 ]
 
 export const faqs = [
   {
-    question: 'Em que dias posso fazer pedido de marcação?',
-    answer: 'De segunda a sábado. O formulário bloqueia automaticamente domingos.',
+    question: 'Quanto custa o serviço?',
+    answer:
+      'O valor depende do tipo de serviço, dimensão e nível de sujidade. Envia o pedido e recebes orçamento rápido por WhatsApp.',
   },
   {
-    question: 'Atendem apenas em Coimbra?',
-    answer: 'Não. A DEMA Clean também trabalha em Pombal e noutras zonas da região, mediante agenda.',
+    question: 'Em quanto tempo recebo resposta?',
+    answer: 'Normalmente no próprio dia útil. Para pedidos urgentes, assinala urgência no formulário.',
   },
   {
-    question: 'Posso pedir orçamento antes de fechar a marcação?',
-    answer: 'Sim. A plataforma está preparada tanto para pedido de contacto como para pedido de reserva.',
+    question: 'Deslocam-se fora de Coimbra?',
+    answer: 'Sim. Atendemos Coimbra, Pombal e zonas próximas mediante disponibilidade de agenda.',
+  },
+  {
+    question: 'Que formas de pagamento aceitam?',
+    answer: 'Pagamento por MB Way, transferência ou numerário, conforme combinado na confirmação.',
+  },
+  {
+    question: 'Posso enviar fotos antes de confirmar?',
+    answer:
+      'Sim. O formulário permite anexar imagens para acelerar o orçamento e tornar a proposta mais precisa.',
   },
 ]

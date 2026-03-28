@@ -262,7 +262,8 @@ p {
 .contact-grid,
 .mini-grid,
 .booking-side-cards,
-.trust-grid {
+.trust-grid,
+.areas-grid {
   display: grid;
   gap: 18px;
 }
@@ -352,6 +353,26 @@ p {
   min-height: 240px;
 }
 
+.areas-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.area-card a {
+  display: inline-flex;
+  margin-top: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.areas-note {
+  margin-top: 18px;
+}
+
+.areas-note a {
+  color: #ffffff;
+  font-weight: 700;
+}
+
 .service-badge {
   width: fit-content;
   border-radius: 999px;
@@ -436,46 +457,22 @@ textarea {
   appearance: none;
 }
 
+.booking-select {
+  padding-right: 46px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%23e6e6e6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px 16px;
+}
+
 input:focus,
 select:focus,
 textarea:focus {
   border-color: rgba(255,255,255,0.3);
   background: rgba(255,255,255,0.05);
-}
-
-.checkbox-group {
-  margin: 0 0 16px;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(255,255,255,0.03);
-}
-
-.checkbox-group legend {
-  padding: 0 4px;
-  font-size: 0.95rem;
-  color: #e6e6e6;
-}
-
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 10px;
-}
-
-.checkbox-item:last-child {
-  margin-bottom: 0;
-}
-
-.checkbox-item input[type='checkbox'] {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-}
-
-.checkbox-item span {
-  margin: 0;
 }
 
 textarea {
@@ -491,6 +488,39 @@ textarea {
   color: #ffffff;
 }
 
+.upload-hint {
+  margin: -6px 0 12px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.booking-summary {
+  margin-top: 20px;
+  padding: 18px;
+}
+
+.booking-summary strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.booking-summary a {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.consent-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.consent-row input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
 .react-datepicker {
   border-radius: 18px;
   overflow: hidden;
@@ -502,7 +532,7 @@ textarea {
 
 .react-datepicker__day-name span[aria-hidden='true'] {
   font-weight: 600;
-  color: #000000;
+  color: #e6e6e6;
 }
 
 .reviews-grid {
@@ -511,6 +541,36 @@ textarea {
 
 .review-card {
   min-height: 220px;
+}
+
+.review-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.review-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.review-head span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.review-date {
+  white-space: nowrap;
 }
 
 .stars {
@@ -566,6 +626,10 @@ textarea {
   font-weight: 800;
 }
 
+.mobile-quick-actions {
+  display: none;
+}
+
 @media (max-width: 1120px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -615,6 +679,10 @@ textarea {
     padding: 76px 0;
   }
 
+  .areas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .booking-card input[type='time'] {
     width: 100% !important;
     max-width: 100% !important;
@@ -653,5 +721,44 @@ textarea {
     right: 12px;
     left: 12px;
     justify-content: center;
+  }
+
+  .areas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-quick-actions {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mobile-quick-actions a {
+    min-height: 50px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    border: 1px solid var(--line);
+  }
+
+  .mobile-quick-call {
+    background: transparent;
+    color: var(--text);
+  }
+
+  .mobile-quick-whatsapp {
+    background: #ffffff;
+    color: #050505;
+  }
+
+  .site-footer {
+    padding-bottom: 140px;
   }
 }
