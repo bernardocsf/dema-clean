@@ -801,6 +801,17 @@ textarea:focus-visible {
     padding: 76px 0;
   }
 
+  .stat-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stat-box strong {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
   .areas-grid {
     grid-template-columns: repeat(2, 1fr);
   }
