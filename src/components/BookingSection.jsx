@@ -25,28 +25,16 @@ function isSunday(dateValue) {
 }
 
 function formatPhoneInput(value) {
-  return value.replace(/[^\d+\s()-]/g, '').slice(0, 20)
+  const digits = value.replace(/\D/g, '').slice(0, 9)
+  if (digits.length <= 3) return digits
+  if (digits.length <= 6) return `${digits.slice(0, 3)} ${digits.slice(3)}`
+  return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`
 }
 
 function formatPostalCodeInput(value) {
   const digits = value.replace(/\D/g, '').slice(0, 7)
   if (digits.length <= 4) return digits
   return `${digits.slice(0, 4)}-${digits.slice(4)}`
-}
-
-function normalizeGermanPhone(value) {
-  const compact = value.replace(/[\s()-]/g, '')
-  if (!compact) return ''
-
-  if (compact.startsWith('+49')) return compact
-  if (compact.startsWith('0049')) return `+${compact.slice(2)}`
-  if (compact.startsWith('49')) return `+${compact}`
-  if (compact.startsWith('0')) return `+49${compact.slice(1)}`
-  return compact
-}
-
-function isValidGermanPhone(value) {
-  return /^\+49\d{7,13}$/.test(value)
 }
 
 function getGoogleCalendarUrl({ date, time, service, location }) {
@@ -94,7 +82,6 @@ export default function BookingSection() {
     postalCode: '',
     locality: '',
     notes: '',
-    consent: false,
   })
   const [status, setStatus] = useState('')
   const [statusType, setStatusType] = useState('info')
@@ -113,11 +100,6 @@ export default function BookingSection() {
 
     if (name === 'postalCode') {
       setForm((current) => ({ ...current, postalCode: formatPostalCodeInput(value) }))
-      return
-    }
-
-    if (type === 'checkbox') {
-      setForm((current) => ({ ...current, [name]: checked }))
       return
     }
 
@@ -155,7 +137,7 @@ export default function BookingSection() {
     const turnstileTokenInput = formElement.elements.namedItem('cf-turnstile-response')
     const turnstileToken = turnstileTokenInput instanceof HTMLInputElement ? turnstileTokenInput.value : ''
 
-    const normalizedPhone = normalizeGermanPhone(form.phone)
+    const cleanPhone = form.phone.replace(/\D/g, '')
     const cleanPostal = form.postalCode.replace(/\D/g, '')
 
     if (isSunday(form.date)) {
@@ -170,20 +152,14 @@ export default function BookingSection() {
       return
     }
 
-    if (!isValidGermanPhone(normalizedPhone)) {
-      setStatus('Insere um número da Alemanha válido (ex.: +49 1512 3456789).')
+    if (cleanPhone.length !== 9) {
+      setStatus('Insere um telefone português válido com 9 dígitos.')
       setStatusType('error')
       return
     }
 
     if (cleanPostal.length !== 7) {
       setStatus('Insere um código postal válido no formato 0000-000.')
-      setStatusType('error')
-      return
-    }
-
-    if (!form.consent) {
-      setStatus('Precisas de aceitar a política de privacidade para continuar.')
       setStatusType('error')
       return
     }
@@ -206,7 +182,7 @@ export default function BookingSection() {
     const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL || company.bookingsWebhookUrl
 
     const message = encodeURIComponent(
-      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\n\nNome: ${form.name}\nTelefone: ${normalizedPhone}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
+      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\n\nNome: ${form.name}\nTelefone: ${form.phone}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
     )
 
     const googleCalendarUrl = getGoogleCalendarUrl({
@@ -222,7 +198,7 @@ export default function BookingSection() {
       date: formattedDate,
       time: form.time,
       location: locationLine,
-      phone: normalizedPhone,
+      phone: form.phone,
       calendarUrl: googleCalendarUrl,
     })
 
@@ -230,7 +206,7 @@ export default function BookingSection() {
       try {
         const payload = {
           name: form.name,
-          phone: normalizedPhone,
+          phone: form.phone,
           category: form.category,
           service: form.service,
           date: formattedDate,
@@ -240,7 +216,6 @@ export default function BookingSection() {
           postalCode: form.postalCode,
           locality: form.locality,
           notes: form.notes || '',
-          consent: form.consent,
           turnstileToken,
         }
 
@@ -315,7 +290,7 @@ export default function BookingSection() {
                 name="phone"
                 value={form.phone}
                 onChange={updateField}
-                placeholder="Ex.: +49 1512 3456789"
+                placeholder="Ex.: 966 841 525"
                 inputMode="tel"
                 required
               />
@@ -391,7 +366,7 @@ export default function BookingSection() {
             </label>
             <label>
               <span>Localidade</span>
-              <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Berlim (opcional)" />
+              <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Coimbra" required />
             </label>
           </div>
 
@@ -404,13 +379,6 @@ export default function BookingSection() {
               onChange={updateField}
               placeholder="Ex.: sofá de 3 lugares, colchão de casal, limpeza interior completa..."
             />
-          </label>
-
-          <label className="consent-row">
-            <input type="checkbox" name="consent" checked={form.consent} onChange={updateField} />
-            <span>
-              Aceito a política de privacidade e autorizo contacto para orçamento e marcação.
-            </span>
           </label>
 
           {turnstileSiteKey ? (
