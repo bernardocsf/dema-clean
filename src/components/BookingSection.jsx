@@ -21,16 +21,28 @@ function isSunday(dateValue) {
 }
 
 function formatPhoneInput(value) {
-  const digits = value.replace(/\D/g, '').slice(0, 9)
-  if (digits.length <= 3) return digits
-  if (digits.length <= 6) return `${digits.slice(0, 3)} ${digits.slice(3)}`
-  return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`
+  return value.replace(/[^\d+\s()-]/g, '').slice(0, 20)
 }
 
 function formatPostalCodeInput(value) {
   const digits = value.replace(/\D/g, '').slice(0, 7)
   if (digits.length <= 4) return digits
   return `${digits.slice(0, 4)}-${digits.slice(4)}`
+}
+
+function normalizeGermanPhone(value) {
+  const compact = value.replace(/[\s()-]/g, '')
+  if (!compact) return ''
+
+  if (compact.startsWith('+49')) return compact
+  if (compact.startsWith('0049')) return `+${compact.slice(2)}`
+  if (compact.startsWith('49')) return `+${compact}`
+  if (compact.startsWith('0')) return `+49${compact.slice(1)}`
+  return compact
+}
+
+function isValidGermanPhone(value) {
+  return /^\+49\d{7,13}$/.test(value)
 }
 
 function getGoogleCalendarUrl({ date, time, service, location }) {
@@ -128,7 +140,7 @@ export default function BookingSection() {
     const turnstileTokenInput = formElement.elements.namedItem('cf-turnstile-response')
     const turnstileToken = turnstileTokenInput instanceof HTMLInputElement ? turnstileTokenInput.value : ''
 
-    const cleanPhone = form.phone.replace(/\D/g, '')
+    const normalizedPhone = normalizeGermanPhone(form.phone)
     const cleanPostal = form.postalCode.replace(/\D/g, '')
 
     if (isSunday(form.date)) {
@@ -143,8 +155,8 @@ export default function BookingSection() {
       return
     }
 
-    if (cleanPhone.length !== 9) {
-      setStatus('Insere um telefone válido com 9 dígitos.')
+    if (!isValidGermanPhone(normalizedPhone)) {
+      setStatus('Insere um número da Alemanha válido (ex.: +49 1512 3456789).')
       setStatusType('error')
       return
     }
@@ -168,11 +180,17 @@ export default function BookingSection() {
     }
 
     const formattedDate = format(form.date, 'yyyy-MM-dd')
-    const locationLine = `${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}`
+    const locationLine = [
+      form.address,
+      `Nº ${form.doorNumber}`,
+      [form.postalCode, form.locality].filter(Boolean).join(' '),
+    ]
+      .filter(Boolean)
+      .join(', ')
     const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL || company.bookingsWebhookUrl
 
     const message = encodeURIComponent(
-      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\n\nNome: ${form.name}\nTelefone: ${form.phone}\nMelhor horário de contacto: ${form.contactWindow}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
+      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\n\nNome: ${form.name}\nTelefone: ${normalizedPhone}\nMelhor horário de contacto: ${form.contactWindow}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
     )
 
     const googleCalendarUrl = getGoogleCalendarUrl({
@@ -189,7 +207,7 @@ export default function BookingSection() {
       date: formattedDate,
       time: form.time,
       location: locationLine,
-      phone: form.phone,
+      phone: normalizedPhone,
       calendarUrl: googleCalendarUrl,
     })
 
@@ -197,7 +215,7 @@ export default function BookingSection() {
       try {
         const payload = {
           name: form.name,
-          phone: form.phone,
+          phone: normalizedPhone,
           category: form.category,
           service: form.service,
           urgency: form.urgency,
@@ -281,7 +299,14 @@ export default function BookingSection() {
             </label>
             <label>
               <span>Telefone</span>
-              <input name="phone" value={form.phone} onChange={updateField} placeholder="Ex.: 966 841 525" required />
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={updateField}
+                placeholder="Ex.: +49 1512 3456789"
+                inputMode="tel"
+                required
+              />
             </label>
           </div>
 
@@ -377,7 +402,7 @@ export default function BookingSection() {
             </label>
             <label>
               <span>Localidade</span>
-              <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Coimbra" required />
+              <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Berlim (opcional)" />
             </label>
           </div>
 
