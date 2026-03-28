@@ -129,7 +129,7 @@ export default function BookingSection() {
             </label>
             <label>
               <span>Serviço</span>
-              <select name="service" value={form.service} onChange={updateField}>
+              <select className="booking-select" name="service" value={form.service} onChange={updateField}>
                 {services.map((service) => (
                   <option key={service.title} value={service.title}>
                     {service.title}

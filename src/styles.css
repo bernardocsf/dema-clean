@@ -416,12 +416,20 @@ input,
 select,
 textarea {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: rgba(255,255,255,0.03);
   color: var(--text);
   padding: 14px 16px;
   outline: none;
+}
+
+.booking-card input[type='time'] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
 }
 
 .booking-select {
