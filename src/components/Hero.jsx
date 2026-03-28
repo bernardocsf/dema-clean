@@ -1,6 +1,8 @@
 import { company, features } from '../data/content'
 
 export default function Hero() {
+  const logoUrl = `${import.meta.env.BASE_URL}logo.jpg`
+
   return (
     <section className="hero section" id="inicio">
       <div className="container hero-layout">
@@ -31,7 +33,7 @@ export default function Hero() {
         </div>
 
         <div className="hero-panel card-glow">
-          <img src="/logo.jpg" alt="DEMA Clean" className="hero-logo" />
+          <img src={logoUrl} alt="DEMA Clean" className="hero-logo" />
           <div className="hero-stats">
             {features.map((item) => (
               <div key={item} className="stat-box">

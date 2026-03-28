@@ -1,11 +1,13 @@
 import { company } from '../data/content'
 
 export default function Navbar() {
+  const logoUrl = `${import.meta.env.BASE_URL}logo.jpg`
+
   return (
     <header className="site-header">
       <div className="container nav-shell">
         <a className="brand" href="#inicio" aria-label="DEMA Clean">
-          <img src="/logo.jpg" alt="Logótipo DEMA Clean" className="brand-logo" />
+          <img src={logoUrl} alt="Logótipo DEMA Clean" className="brand-logo" />
           <div>
             <strong>{company.name}</strong>
             <span>{company.slogan}</span>
