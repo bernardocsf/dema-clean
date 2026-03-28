@@ -119,7 +119,7 @@ export default function BookingSection() {
           <div className="field-grid two-columns">
             <label>
               <span>Categoria</span>
-              <select name="category" value={form.category} onChange={updateField}>
+              <select className="booking-select" name="category" value={form.category} onChange={updateField}>
                 {categories.map((category) => (
                   <option key={category} value={category}>
                     {category}
