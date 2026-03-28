@@ -1,51 +1,44 @@
-import { company, metrics, highlights } from '../data/content'
+import { company, features } from '../data/content'
 
 export default function Hero() {
   return (
-    <section className="hero" id="top">
-      <div className="container hero-grid">
+    <section className="hero section" id="inicio">
+      <div className="container hero-layout">
         <div>
-          <p className="eyebrow">Plataforma premium de limpeza e higienização</p>
+          <p className="eyebrow">Higienização profissional em casa e no automóvel</p>
           <h1>
-            A melhor presença digital para uma marca que cuida de <span>casas e carros</span> com rigor.
+            Limpeza profunda com imagem premium, resposta rápida e confiança desde o primeiro clique.
           </h1>
-          <p className="hero-copy">
-            Na DEMA Clean, o serviço tem de parecer profissional antes, durante e depois da marcação.
-            Esta versão foi pensada para transmitir confiança, facilitar reservas e transformar visitas em
-            pedidos reais.
+          <p className="hero-text">
+            Na DEMA Clean, o teu carro e a tua casa recebem o mesmo rigor. Higienização de sofás,
+            colchões, carpetes, estofos de carro, limpeza interior e exterior e polimento de óticas.
           </p>
 
           <div className="hero-actions">
-            <a href="#reservas" className="btn btn-solid">Marcar serviço</a>
-            <a href={company.whatsappLink} className="btn btn-ghost" target="_blank" rel="noreferrer">Pedir orçamento</a>
+            <a className="button button-primary" href="#marcacoes">
+              Marcar serviço
+            </a>
+            <a className="button button-secondary" href={`https://wa.me/${company.phoneLink}`} target="_blank" rel="noreferrer">
+              Falar agora
+            </a>
           </div>
 
-          <div className="bullet-grid">
-            {highlights.map((item) => (
-              <div className="bullet-card" key={item}>{item}</div>
-            ))}
+          <div className="hero-meta">
+            <span>{company.area}</span>
+            <span>Segunda a sábado</span>
+            <span>{company.phoneDisplay}</span>
           </div>
         </div>
 
-        <div className="hero-panel glass">
-          <div className="hero-logo-wrap">
-            <img src="/logo.jpg" alt="DEMA Clean" className="hero-logo" />
-          </div>
-          <div className="hero-panel-top">
-            <span className="tag">Imagem premium</span>
-            <span className="tag">Mobile first</span>
-          </div>
-          <div className="metrics-grid">
-            {metrics.map((item) => (
-              <article key={item.label} className="metric-card">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </article>
+        <div className="hero-panel card-glow">
+          <img src="/logo.jpg" alt="DEMA Clean" className="hero-logo" />
+          <div className="hero-stats">
+            {features.map((item) => (
+              <div key={item} className="stat-box">
+                <strong>✔</strong>
+                <span>{item}</span>
+              </div>
             ))}
-          </div>
-          <div className="hero-contact-strip">
-            <a href={company.phoneLink}>{company.phone}</a>
-            <a href={company.emailLink}>{company.email}</a>
           </div>
         </div>
       </div>

@@ -2,16 +2,22 @@ import { company } from '../data/content'
 
 export default function Footer() {
   return (
-    <footer className="footer">
-      <div className="container footer-inner">
-        <div>
-          <strong>{company.name}</strong>
-          <p>{company.tagline}</p>
+    <footer className="site-footer">
+      <div className="container footer-shell">
+        <div className="brand brand-footer">
+          <img src="/logo.jpg" alt="Logótipo DEMA Clean" className="brand-logo" />
+          <div>
+            <strong>{company.name}</strong>
+            <span>{company.slogan}</span>
+          </div>
         </div>
-        <div className="footer-links">
-          <a href={company.phoneLink}>{company.phone}</a>
-          <a href={company.emailLink}>{company.email}</a>
-          <a href={company.instagram} target="_blank" rel="noreferrer">{company.instagramHandle}</a>
+
+        <div className="footer-right">
+          <a href={`tel:${company.phoneLink}`}>{company.phoneDisplay}</a>
+          <a href={`mailto:${company.email}`}>{company.email}</a>
+          <a href={company.instagramUrl} target="_blank" rel="noreferrer">
+            {company.instagramHandle}
+          </a>
         </div>
       </div>
     </footer>

@@ -1,38 +1,35 @@
-import SectionTitle from './SectionTitle'
 import { company } from '../data/content'
 
 export default function ContactSection() {
   return (
     <section className="section" id="contactos">
       <div className="container contact-layout">
-        <div>
-          <SectionTitle
-            eyebrow="Contactos"
-            title="Fácil de contactar, fácil de converter"
-            text="Também atualizei os teus dados com o novo número e novo email, para deixares esta versão pronta a adaptar e publicar."
-          />
+        <div className="contact-main card-glow">
+          <p className="eyebrow">Contactos</p>
+          <h2>Pronto para receber pedidos, dúvidas e orçamentos.</h2>
+          <p>
+            Todos os pontos de contacto estão visíveis, claros e preparados para ação imediata. O
+            objetivo é simples: facilitar o primeiro passo do cliente.
+          </p>
         </div>
+
         <div className="contact-grid">
-          <article className="contact-card glass">
+          <a className="contact-card card-glow" href={`tel:${company.phoneLink}`}>
             <span>Telefone</span>
-            <a href={company.phoneLink}>{company.phone}</a>
-            <p>Contacto direto para marcações e pedidos rápidos.</p>
-          </article>
-          <article className="contact-card glass">
+            <strong>{company.phoneDisplay}</strong>
+          </a>
+          <a className="contact-card card-glow" href={`mailto:${company.email}`}>
             <span>Email</span>
-            <a href={company.emailLink}>{company.email}</a>
-            <p>Ideal para pedidos mais detalhados ou parcerias.</p>
-          </article>
-          <article className="contact-card glass">
+            <strong>{company.email}</strong>
+          </a>
+          <a className="contact-card card-glow" href={company.instagramUrl} target="_blank" rel="noreferrer">
             <span>Instagram</span>
-            <a href={company.instagram} target="_blank" rel="noreferrer">{company.instagramHandle}</a>
-            <p>Canal visual perfeito para mostrar resultados e captar clientes.</p>
-          </article>
-          <article className="contact-card glass">
+            <strong>{company.instagramHandle}</strong>
+          </a>
+          <div className="contact-card card-glow">
             <span>Zona</span>
-            <strong>{company.location}</strong>
-            <p>Atendimento sujeito a confirmação da localização e disponibilidade.</p>
-          </article>
+            <strong>{company.area}</strong>
+          </div>
         </div>
       </div>
     </section>

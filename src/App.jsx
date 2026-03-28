@@ -1,14 +1,15 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import TrustBar from './components/TrustBar'
 import ServicesSection from './components/ServicesSection'
+import ExperienceSection from './components/ExperienceSection'
 import ProcessSection from './components/ProcessSection'
-import ShowcaseSection from './components/ShowcaseSection'
 import BookingSection from './components/BookingSection'
 import ReviewsSection from './components/ReviewsSection'
 import FAQSection from './components/FAQSection'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
-import FloatingContact from './components/FloatingContact'
+import FloatingCTA from './components/FloatingCTA'
 
 export default function App() {
   return (
@@ -16,16 +17,17 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <TrustBar />
         <ServicesSection />
+        <ExperienceSection />
         <ProcessSection />
-        <ShowcaseSection />
         <BookingSection />
         <ReviewsSection />
         <FAQSection />
         <ContactSection />
       </main>
       <Footer />
-      <FloatingContact />
+      <FloatingCTA />
     </>
   )
 }

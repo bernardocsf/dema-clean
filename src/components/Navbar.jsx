@@ -2,23 +2,26 @@ import { company } from '../data/content'
 
 export default function Navbar() {
   return (
-    <header className="navbar">
+    <header className="site-header">
       <div className="container nav-shell">
-        <a href="#top" className="brand">
+        <a className="brand" href="#inicio" aria-label="DEMA Clean">
           <img src="/logo.jpg" alt="Logótipo DEMA Clean" className="brand-logo" />
           <div>
             <strong>{company.name}</strong>
-            <span>{company.location}</span>
+            <span>{company.slogan}</span>
           </div>
         </a>
 
-        <nav className="nav-links">
+        <nav className="nav-links" aria-label="Navegação principal">
           <a href="#servicos">Serviços</a>
-          <a href="#processo">Processo</a>
-          <a href="#reservas">Reservas</a>
+          <a href="#marcacoes">Marcações</a>
           <a href="#reviews">Reviews</a>
-          <a href="#contactos" className="nav-cta">Contactos</a>
+          <a href="#contactos">Contactos</a>
         </nav>
+
+        <a className="nav-cta" href={`https://wa.me/${company.phoneLink}`} target="_blank" rel="noreferrer">
+          Pedir orçamento
+        </a>
       </div>
     </header>
   )
