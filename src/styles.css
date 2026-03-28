@@ -442,6 +442,20 @@ textarea {
   color: #ffffff;
 }
 
+.react-datepicker {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.react-datepicker__month-container .react-datepicker__header .react-datepicker__current-month {
+  margin: 0 auto;
+}
+
+.react-datepicker__day-name span[aria-hidden='true'] {
+  font-weight: 600;
+  color: #000000;
+}
+
 .reviews-grid {
   grid-template-columns: repeat(3, 1fr);
 }

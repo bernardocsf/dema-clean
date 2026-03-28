@@ -3,7 +3,7 @@ export const company = {
   slogan: 'Tá sujo? Relaxa, a DEMA despacha!',
   phoneDisplay: '966 841 525',
   phoneLink: '351966841525',
-  email: 'bernardocoelhoferreira@gmail.com',
+  email: 'webernardocsf@gmail.com',
   instagramHandle: '@demaclean_',
   instagramUrl: 'https://instagram.com/demaclean_',
   area: 'Coimbra, Pombal e região',

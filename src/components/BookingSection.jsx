@@ -1,27 +1,35 @@
 import { useMemo, useState } from 'react'
+import DatePicker from 'react-datepicker'
+import { format } from 'date-fns'
+import { pt } from 'date-fns/locale'
+import 'react-datepicker/dist/react-datepicker.css'
 import { company, services } from '../data/content'
+
+const categories = ['Casa', 'Automóvel', 'Bebé e Infantil', 'Outro']
 
 function getMinDate() {
   const now = new Date()
   now.setHours(0, 0, 0, 0)
-  return now.toISOString().split('T')[0]
+  return now
 }
 
 function isSunday(dateValue) {
   if (!dateValue) return false
-  const date = new Date(`${dateValue}T12:00:00`)
-  return date.getDay() === 0
+  return dateValue.getDay() === 0
 }
 
 export default function BookingSection() {
   const [form, setForm] = useState({
     name: '',
     phone: '',
-    email: '',
+    category: categories[0],
     service: services[0].title,
-    date: '',
+    date: null,
     time: '10:00',
-    location: '',
+    address: '',
+    doorNumber: '',
+    postalCode: '',
+    locality: '',
     notes: '',
   })
   const [status, setStatus] = useState('')
@@ -33,6 +41,19 @@ export default function BookingSection() {
     setForm((current) => ({ ...current, [name]: value }))
   }
 
+  function updateDateField(event) {
+    const selectedDate = event
+
+    if (isSunday(selectedDate)) {
+      setForm((current) => ({ ...current, date: null }))
+      setStatus('Domingos estão indisponíveis. Seleciona um dia de segunda a sábado.')
+      return
+    }
+
+    setForm((current) => ({ ...current, date: selectedDate }))
+    setStatus('')
+  }
+
   function handleSubmit(event) {
     event.preventDefault()
 
@@ -41,13 +62,19 @@ export default function BookingSection() {
       return
     }
 
-    const subject = encodeURIComponent(`Pedido de marcação - ${form.service}`)
-    const body = encodeURIComponent(
-      `Nome: ${form.name}\nTelefone: ${form.phone}\nEmail: ${form.email}\nServiço: ${form.service}\nData pretendida: ${form.date}\nHora pretendida: ${form.time}\nZona: ${form.location}\nDetalhes: ${form.notes}`,
+    if (!form.date) {
+      setStatus('Seleciona uma data para a marcação.')
+      return
+    }
+
+    const formattedDate = format(form.date, 'yyyy-MM-dd')
+
+    const message = encodeURIComponent(
+      `Pedido de marcação\nCategoria: ${form.category}\nServiço: ${form.service}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}\nDetalhes: ${form.notes || '-'}`,
     )
 
-    window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`
-    setStatus('Pedido preparado com sucesso. O teu email foi aberto para envio.')
+    window.location.href = `https://wa.me/${company.phoneLink}?text=${message}`
+    setStatus('Pedido preparado com sucesso. O WhatsApp foi aberto para envio.')
   }
 
   return (
@@ -68,7 +95,7 @@ export default function BookingSection() {
             </div>
             <div className="mini-card card-glow">
               <strong>Canal direto</strong>
-              <span>{company.email}</span>
+              <span>WhatsApp: {company.phoneDisplay}</span>
             </div>
             <div className="mini-card card-glow">
               <strong>Zona de atuação</strong>
@@ -91,8 +118,14 @@ export default function BookingSection() {
 
           <div className="field-grid two-columns">
             <label>
-              <span>Email</span>
-              <input name="email" type="email" value={form.email} onChange={updateField} required />
+              <span>Categoria</span>
+              <select name="category" value={form.category} onChange={updateField}>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </label>
             <label>
               <span>Serviço</span>
@@ -109,7 +142,18 @@ export default function BookingSection() {
           <div className="field-grid two-columns">
             <label>
               <span>Data pretendida</span>
-              <input name="date" type="date" min={minDate} value={form.date} onChange={updateField} required />
+              <DatePicker
+                selected={form.date}
+                onChange={updateDateField}
+                minDate={minDate}
+                filterDate={(date) => date.getDay() !== 0}
+                dateFormat="dd-MM-yyyy"
+                locale={pt}
+                formatWeekDay={(nameOfDay) => nameOfDay.slice(0, 1).toUpperCase()}
+                placeholderText="Seleciona a data"
+                title="Domingos indisponíveis"
+                required
+              />
             </label>
             <label>
               <span>Hora pretendida</span>
@@ -117,10 +161,33 @@ export default function BookingSection() {
             </label>
           </div>
 
-          <label>
-            <span>Localidade</span>
-            <input name="location" value={form.location} onChange={updateField} placeholder="Ex.: Coimbra" required />
-          </label>
+          <div className="field-grid two-columns">
+            <label>
+              <span>Rua / Avenida</span>
+              <input
+                name="address"
+                value={form.address}
+                onChange={updateField}
+                placeholder="Ex.: Rua da Liberdade"
+                required
+              />
+            </label>
+            <label>
+              <span>Número de porta</span>
+              <input name="doorNumber" value={form.doorNumber} onChange={updateField} placeholder="Ex.: 145" required />
+            </label>
+          </div>
+
+          <div className="field-grid two-columns">
+            <label>
+              <span>Código postal</span>
+              <input name="postalCode" value={form.postalCode} onChange={updateField} placeholder="Ex.: 3000-123" required />
+            </label>
+            <label>
+              <span>Localidade</span>
+              <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Coimbra" required />
+            </label>
+          </div>
 
           <label>
             <span>Detalhes do pedido</span>
