@@ -33,19 +33,6 @@ function formatPostalCodeInput(value) {
   return `${digits.slice(0, 4)}-${digits.slice(4)}`
 }
 
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      const result = typeof reader.result === 'string' ? reader.result : ''
-      const base64 = result.includes(',') ? result.split(',')[1] : result
-      resolve(base64)
-    }
-    reader.onerror = reject
-    reader.readAsDataURL(file)
-  })
-}
-
 function getGoogleCalendarUrl({ date, time, service, location }) {
   const [hours, minutes] = time.split(':').map(Number)
   const start = new Date(date)
@@ -92,7 +79,7 @@ export default function BookingSection() {
     consent: false,
   })
   const [status, setStatus] = useState('')
-  const [selectedPhotos, setSelectedPhotos] = useState([])
+  const [statusType, setStatusType] = useState('info')
   const [bookingSummary, setBookingSummary] = useState(null)
 
   const minDate = useMemo(() => getMinDate(), [])
@@ -118,73 +105,63 @@ export default function BookingSection() {
     setForm((current) => ({ ...current, [name]: value }))
   }
 
-  function updatePhotoField(event) {
-    const files = Array.from(event.target.files || [])
-    setSelectedPhotos(files)
-  }
-
   function updateDateField(event) {
     const selectedDate = event
 
     if (isSunday(selectedDate)) {
       setForm((current) => ({ ...current, date: null }))
       setStatus('Domingos estão indisponíveis. Seleciona um dia de segunda a sábado.')
+      setStatusType('error')
       return
     }
 
     setForm((current) => ({ ...current, date: selectedDate }))
     setStatus('')
+    setStatusType('info')
   }
 
   async function handleSubmit(event) {
     event.preventDefault()
-    const formElement = event.currentTarget
-    const photoInput = formElement.elements.namedItem('photos')
-    const attachedPhotos = photoInput instanceof HTMLInputElement
-      ? Array.from(photoInput.files || [])
-      : []
-
-    setSelectedPhotos(attachedPhotos)
 
     const cleanPhone = form.phone.replace(/\D/g, '')
     const cleanPostal = form.postalCode.replace(/\D/g, '')
 
     if (isSunday(form.date)) {
       setStatus('As marcações estão disponíveis apenas de segunda a sábado.')
+      setStatusType('error')
       return
     }
 
     if (!form.date) {
       setStatus('Seleciona uma data para a marcação.')
+      setStatusType('error')
       return
     }
 
     if (cleanPhone.length !== 9) {
       setStatus('Insere um telefone válido com 9 dígitos.')
+      setStatusType('error')
       return
     }
 
     if (cleanPostal.length !== 7) {
       setStatus('Insere um código postal válido no formato 0000-000.')
+      setStatusType('error')
       return
     }
 
     if (!form.consent) {
       setStatus('Precisas de aceitar a política de privacidade para continuar.')
+      setStatusType('error')
       return
     }
 
     const formattedDate = format(form.date, 'yyyy-MM-dd')
     const locationLine = `${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}`
-    const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL
-    const photosLine = attachedPhotos.length > 0
-      ? webhookUrl
-        ? 'Enviadas no formulário'
-        : 'Selecionadas (anexar manualmente no WhatsApp)'
-      : 'Sem fotos anexadas'
+    const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL || company.bookingsWebhookUrl
 
     const message = encodeURIComponent(
-      `Pedido de marcação\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\nMelhor horário de contacto: ${form.contactWindow}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${locationLine}\nFotos para orçamento: ${photosLine}\nDetalhes: ${form.notes || '-'}`,
+      `Pedido de marcação\nCategoria: ${form.category}\nServiço: ${form.service}\nUrgência: ${form.urgency}\nMelhor horário de contacto: ${form.contactWindow}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${locationLine}\nDetalhes: ${form.notes || '-'}`,
     )
 
     const googleCalendarUrl = getGoogleCalendarUrl({
@@ -203,20 +180,10 @@ export default function BookingSection() {
       location: locationLine,
       phone: form.phone,
       calendarUrl: googleCalendarUrl,
-      photosCount: attachedPhotos.length,
     })
 
     if (webhookUrl) {
       try {
-        const photosPayload = await Promise.all(
-          attachedPhotos.map(async (photo) => ({
-            name: photo.name,
-            type: photo.type || 'image/jpeg',
-            size: photo.size,
-            base64: await fileToBase64(photo),
-          })),
-        )
-
         const payload = {
           name: form.name,
           phone: form.phone,
@@ -232,7 +199,6 @@ export default function BookingSection() {
           locality: form.locality,
           notes: form.notes || '',
           consent: form.consent,
-          photos: photosPayload,
         }
 
         // Sem Content-Type custom para evitar preflight/CORS com Apps Script.
@@ -246,7 +212,12 @@ export default function BookingSection() {
     }
 
     window.location.href = `https://wa.me/${company.phoneLink}?text=${message}`
-    setStatus('Pedido preparado com sucesso. O WhatsApp foi aberto para envio.')
+    setStatus(
+      webhookUrl
+        ? 'Pedido preparado com sucesso. Dados registados no formulário e WhatsApp aberto.'
+        : 'Pedido preparado com sucesso. WhatsApp aberto.',
+    )
+    setStatusType('success')
   }
 
   return (
@@ -283,7 +254,6 @@ export default function BookingSection() {
               </p>
               <p>Morada: {bookingSummary.location}</p>
               <p>Contacto: {bookingSummary.phone}</p>
-              <p>Fotos anexadas: {bookingSummary.photosCount}</p>
               <a href={bookingSummary.calendarUrl} target="_blank" rel="noreferrer">
                 Adicionar ao Google Calendar
               </a>
@@ -400,14 +370,6 @@ export default function BookingSection() {
           </div>
 
           <label>
-            <span>Fotos para orçamento (opcional)</span>
-            <input name="photos" type="file" accept="image/*" multiple onChange={updatePhotoField} />
-          </label>
-          {selectedPhotos.length > 0 ? (
-            <p className="upload-hint">{selectedPhotos.length} foto(s) selecionada(s)</p>
-          ) : null}
-
-          <label>
             <span>Detalhes do pedido</span>
             <textarea
               name="notes"
@@ -429,7 +391,7 @@ export default function BookingSection() {
             Enviar pedido de marcação
           </button>
 
-          {status ? <p className="form-status">{status}</p> : null}
+          {status ? <p className={`form-status form-status-${statusType}`}>{status}</p> : null}
         </form>
       </div>
     </section>

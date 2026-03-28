@@ -7,6 +7,7 @@ export const company = {
   instagramHandle: '@demaclean_',
   instagramUrl: 'https://instagram.com/demaclean_',
   area: 'Coimbra, Pombal e região',
+  bookingsWebhookUrl: '',
 }
 
 export const localAreas = [

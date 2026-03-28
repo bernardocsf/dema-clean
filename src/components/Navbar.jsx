@@ -16,13 +16,12 @@ export default function Navbar() {
 
         <nav className="nav-links" aria-label="Navegação principal">
           <a href="#servicos">Serviços</a>
-          <a href="#marcacoes">Marcações</a>
           <a href="#reviews">Reviews</a>
           <a href="#contactos">Contactos</a>
         </nav>
 
-        <a className="nav-cta" href={`https://wa.me/${company.phoneLink}`} target="_blank" rel="noreferrer">
-          Pedir orçamento
+        <a className="nav-cta" href="#marcacoes">
+          Marcações
         </a>
       </div>
     </header>
