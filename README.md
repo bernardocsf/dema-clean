@@ -40,6 +40,10 @@ VITE_BOOKING_WEBHOOK_URL=https://teu-endpoint-webhook
 
 Sem esta variável, o fluxo principal continua por WhatsApp normalmente.
 
+Guia completo para Google Apps Script + Drive:
+
+`docs/google-apps-script.md`
+
 ### Deploy GitHub Pages
 
 ```bash

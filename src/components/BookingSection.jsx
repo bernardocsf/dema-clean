@@ -33,6 +33,19 @@ function formatPostalCodeInput(value) {
   return `${digits.slice(0, 4)}-${digits.slice(4)}`
 }
 
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : ''
+      const base64 = result.includes(',') ? result.split(',')[1] : result
+      resolve(base64)
+    }
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
+
 function getGoogleCalendarUrl({ date, time, service, location }) {
   const [hours, minutes] = time.split(':').map(Number)
   const start = new Date(date)
@@ -195,26 +208,37 @@ export default function BookingSection() {
 
     if (webhookUrl) {
       try {
-        const payload = new FormData()
-        payload.append('name', form.name)
-        payload.append('phone', form.phone)
-        payload.append('category', form.category)
-        payload.append('service', form.service)
-        payload.append('urgency', form.urgency)
-        payload.append('contactWindow', form.contactWindow)
-        payload.append('date', formattedDate)
-        payload.append('time', form.time)
-        payload.append('address', form.address)
-        payload.append('doorNumber', form.doorNumber)
-        payload.append('postalCode', form.postalCode)
-        payload.append('locality', form.locality)
-        payload.append('notes', form.notes || '')
-        payload.append('consent', String(form.consent))
-        attachedPhotos.forEach((photo) => payload.append('photos', photo))
+        const photosPayload = await Promise.all(
+          attachedPhotos.map(async (photo) => ({
+            name: photo.name,
+            type: photo.type || 'image/jpeg',
+            size: photo.size,
+            base64: await fileToBase64(photo),
+          })),
+        )
 
+        const payload = {
+          name: form.name,
+          phone: form.phone,
+          category: form.category,
+          service: form.service,
+          urgency: form.urgency,
+          contactWindow: form.contactWindow,
+          date: formattedDate,
+          time: form.time,
+          address: form.address,
+          doorNumber: form.doorNumber,
+          postalCode: form.postalCode,
+          locality: form.locality,
+          notes: form.notes || '',
+          consent: form.consent,
+          photos: photosPayload,
+        }
+
+        // Sem Content-Type custom para evitar preflight/CORS com Apps Script.
         await fetch(webhookUrl, {
           method: 'POST',
-          body: payload,
+          body: JSON.stringify(payload),
         })
       } catch {
         // Non-blocking: o pedido continua por WhatsApp mesmo que o webhook falhe.
