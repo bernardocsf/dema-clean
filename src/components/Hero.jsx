@@ -21,12 +21,6 @@ export default function Hero() {
               Falar agora
             </a>
           </div>
-
-          <div className="hero-meta">
-            <span>{company.area}</span>
-            <span>Segunda a sábado</span>
-            <span>{company.phoneDisplay}</span>
-          </div>
         </div>
 
         <div className="hero-panel card-glow">
