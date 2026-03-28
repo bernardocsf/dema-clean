@@ -612,18 +612,6 @@ textarea {
   text-underline-offset: 2px;
 }
 
-.consent-row {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.consent-row input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-}
-
 .turnstile-wrap {
   margin: 8px 0 10px;
 }
