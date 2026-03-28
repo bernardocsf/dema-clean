@@ -22,8 +22,8 @@ export default function BookingSection() {
   const [form, setForm] = useState({
     name: '',
     phone: '',
-    category: categories[0],
-    service: services[0].title,
+    categories: [],
+    services: [],
     date: null,
     time: '10:00',
     address: '',
@@ -39,6 +39,18 @@ export default function BookingSection() {
   function updateField(event) {
     const { name, value } = event.target
     setForm((current) => ({ ...current, [name]: value }))
+  }
+
+  function toggleMultiField(fieldName, fieldValue) {
+    setForm((current) => {
+      const values = current[fieldName]
+      const nextValues = values.includes(fieldValue)
+        ? values.filter((item) => item !== fieldValue)
+        : [...values, fieldValue]
+
+      return { ...current, [fieldName]: nextValues }
+    })
+    setStatus('')
   }
 
   function updateDateField(event) {
@@ -67,10 +79,20 @@ export default function BookingSection() {
       return
     }
 
+    if (form.categories.length === 0) {
+      setStatus('Seleciona pelo menos uma categoria.')
+      return
+    }
+
+    if (form.services.length === 0) {
+      setStatus('Seleciona pelo menos um serviço.')
+      return
+    }
+
     const formattedDate = format(form.date, 'yyyy-MM-dd')
 
     const message = encodeURIComponent(
-      `Pedido de marcação\nCategoria: ${form.category}\nServiço: ${form.service}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}\nDetalhes: ${form.notes || '-'}`,
+      `Pedido de marcação\nCategorias: ${form.categories.join(', ')}\nServiços: ${form.services.join(', ')}\nNome: ${form.name}\nTelefone: ${form.phone}\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\nMorada: ${form.address}, Nº ${form.doorNumber}, ${form.postalCode} ${form.locality}\nDetalhes: ${form.notes || '-'}`,
     )
 
     window.location.href = `https://wa.me/${company.phoneLink}?text=${message}`
@@ -117,26 +139,33 @@ export default function BookingSection() {
           </div>
 
           <div className="field-grid two-columns">
-            <label>
-              <span>Categoria</span>
-              <select className="booking-select" name="category" value={form.category} onChange={updateField}>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span>Serviço</span>
-              <select className="booking-select" name="service" value={form.service} onChange={updateField}>
-                {services.map((service) => (
-                  <option key={service.title} value={service.title}>
-                    {service.title}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <fieldset className="checkbox-group">
+              <legend>Categoria</legend>
+              {categories.map((category) => (
+                <label key={category} className="checkbox-item">
+                  <input
+                    type="checkbox"
+                    checked={form.categories.includes(category)}
+                    onChange={() => toggleMultiField('categories', category)}
+                  />
+                  <span>{category}</span>
+                </label>
+              ))}
+            </fieldset>
+
+            <fieldset className="checkbox-group">
+              <legend>Serviço</legend>
+              {services.map((service) => (
+                <label key={service.title} className="checkbox-item">
+                  <input
+                    type="checkbox"
+                    checked={form.services.includes(service.title)}
+                    onChange={() => toggleMultiField('services', service.title)}
+                  />
+                  <span>{service.title}</span>
+                </label>
+              ))}
+            </fieldset>
           </div>
 
           <div className="field-grid two-columns">
