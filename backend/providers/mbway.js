@@ -5,7 +5,9 @@ function toEurCents(amount) {
 async function createWithEupago({ amount, phone, orderId, customerName }) {
   const apiKey = process.env.EUPAGO_API_KEY
   const entity = process.env.EUPAGO_ENTITY || ''
-  const endpoint = process.env.EUPAGO_MBWAY_CREATE_URL || 'https://clientes.eupago.pt/api/v1.02/mbway/create'
+  const endpoint = process.env.EUPAGO_MBWAY_CREATE_URL || 'https://sandbox.eupago.pt/api/v1.02/mbway/create'
+  const usePhoneCountryCode = String(process.env.EUPAGO_PHONE_COUNTRY_CODE || '').trim() === '351'
+  const normalizedPhone = usePhoneCountryCode && !String(phone).startsWith('351') ? `351${phone}` : String(phone)
 
   if (!apiKey) {
     throw new Error('EUPAGO_API_KEY is missing')
@@ -17,26 +19,38 @@ async function createWithEupago({ amount, phone, orderId, customerName }) {
     id: orderId,
     alias: customerName || 'Cliente',
     per_dup: 0,
-    telemovel: phone,
+    telemovel: normalizedPhone,
     ...(entity ? { entidade: entity } : {}),
   }
 
   const response = await fetch(endpoint, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `ApiKey ${apiKey}`,
+    },
     body: JSON.stringify(payload),
   })
 
   const json = await response.json().catch(() => ({}))
 
   if (!response.ok) {
-    throw new Error(json?.mensagem || json?.message || 'Failed to create Eupago MB Way request')
+    throw new Error(
+      `Failed to create Eupago MB Way request: ${json?.mensagem || json?.message || JSON.stringify(json) || response.status}`,
+    )
   }
 
-  const success = String(json?.sucesso ?? json?.success ?? '').toLowerCase() === 'true' || json?.sucesso === 1
+  const estado = Number(json?.estado)
+  const success =
+    String(json?.sucesso ?? json?.success ?? '').toLowerCase() === 'true' ||
+    json?.sucesso === 1 ||
+    estado === 0 ||
+    String(json?.status || '').toLowerCase() === 'success'
 
   if (!success) {
-    throw new Error(json?.mensagem || 'Gateway rejected MB Way request')
+    throw new Error(
+      `Gateway rejected MB Way request: ${json?.mensagem || json?.message || json?.estado || JSON.stringify(json)}`,
+    )
   }
 
   return {
