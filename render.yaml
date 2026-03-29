@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: dema-clean-payments-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: PORT
+        value: 8787
+      - key: PUBLIC_BASE_URL
+        value: https://bernardocsf.github.io/dema-clean/
+      - key: PAYMENT_PROVIDER
+        value: eupago
+      - key: PAYMENT_WEBHOOK_SECRET
+        generateValue: true
+      - key: EUPAGO_API_KEY
+        sync: false
+      - key: EUPAGO_ENTITY
+        sync: false
+      - key: IFTHENPAY_API_KEY
+        sync: false
+      - key: IFTHENPAY_MBWAY_KEY
+        sync: false

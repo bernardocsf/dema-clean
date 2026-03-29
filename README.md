@@ -96,3 +96,28 @@ Para o cliente receber notificação real no MB Way é obrigatório:
 - webhook do gateway a apontar para `/api/webhooks/mbway`.
 
 Sem isso, o pedido MB Way não é confirmado automaticamente.
+
+### Deploy rápido no Render
+
+O projeto já inclui `render.yaml`.
+
+1. Faz push deste repositório para GitHub.
+2. No Render: `New +` -> `Blueprint` -> seleciona o repositório.
+3. Confirma criação do serviço `dema-clean-payments-api`.
+4. No Render, define as env vars reais:
+   - `EUPAGO_API_KEY`
+   - `EUPAGO_ENTITY` (se aplicável)
+   - ou as da Ifthenpay se usares esse provider.
+5. Copia a URL pública da API, ex.: `https://dema-clean-payments-api.onrender.com`
+
+### Ligar frontend (GitHub Pages) à API pública
+
+No teu terminal local, antes de build/deploy:
+
+```bash
+export VITE_PAYMENTS_API_URL=https://dema-clean-payments-api.onrender.com
+npm run build
+npm run deploy
+```
+
+Depois disso, o site público deixa de tentar `localhost`.
