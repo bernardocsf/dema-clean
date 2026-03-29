@@ -1,10 +1,10 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import TrustBar from './components/TrustBar'
 import ServicesSection from './components/ServicesSection'
+import AboutSection from './components/AboutSection'
 import BookingSection from './components/BookingSection'
+import VoucherSection from './components/VoucherSection'
 import ReviewsSection from './components/ReviewsSection'
-import FAQSection from './components/FAQSection'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 import MobileQuickActions from './components/MobileQuickActions'
@@ -19,11 +19,11 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <TrustBar />
         <ServicesSection />
         <BookingSection />
         <ReviewsSection />
-        <FAQSection />
+        <VoucherSection />
+        <AboutSection />
         <ContactSection />
       </main>
       <Footer />

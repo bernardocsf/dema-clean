@@ -19,6 +19,12 @@ function getMinDate() {
   return now
 }
 
+function getVoucherFromUrl() {
+  const params = new URLSearchParams(window.location.search)
+  const voucher = params.get('voucher') || ''
+  return voucher.trim().slice(0, 40)
+}
+
 function isSunday(dateValue) {
   if (!dateValue) return false
   return dateValue.getDay() === 0
@@ -69,6 +75,7 @@ export default function BookingSection() {
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || company.turnstileSiteKey
   const initialCategory = categories[0]
   const initialService = servicesByCategory[initialCategory][0]
+  const initialVoucher = typeof window === 'undefined' ? '' : getVoucherFromUrl()
 
   const [form, setForm] = useState({
     name: '',
@@ -81,6 +88,7 @@ export default function BookingSection() {
     doorNumber: '',
     postalCode: '',
     locality: '',
+    voucherCode: initialVoucher,
     notes: '',
   })
   const [status, setStatus] = useState('')
@@ -91,7 +99,7 @@ export default function BookingSection() {
   const availableServices = servicesByCategory[form.category] || servicesByCategory.Outro
 
   function updateField(event) {
-    const { name, value, type, checked } = event.target
+    const { name, value } = event.target
 
     if (name === 'phone') {
       setForm((current) => ({ ...current, phone: formatPhoneInput(value) }))
@@ -182,7 +190,7 @@ export default function BookingSection() {
     const webhookUrl = import.meta.env.VITE_BOOKING_WEBHOOK_URL || company.bookingsWebhookUrl
 
     const message = encodeURIComponent(
-      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\n\nNome: ${form.name}\nTelefone: ${form.phone}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
+      `📥 Pedido de marcação\n\nCategoria: ${form.category}\nServiço: ${form.service}\nVoucher: ${form.voucherCode || '-'}\n\nNome: ${form.name}\nTelefone: ${form.phone}\n\nData pretendida: ${formattedDate}\nHora pretendida: ${form.time}\n\nMorada: ${locationLine}\n\nDetalhes: ${form.notes || '-'}`,
     )
 
     const googleCalendarUrl = getGoogleCalendarUrl({
@@ -199,6 +207,7 @@ export default function BookingSection() {
       time: form.time,
       location: locationLine,
       phone: form.phone,
+      voucherCode: form.voucherCode || '-',
       calendarUrl: googleCalendarUrl,
     })
 
@@ -215,6 +224,7 @@ export default function BookingSection() {
           doorNumber: form.doorNumber,
           postalCode: form.postalCode,
           locality: form.locality,
+          voucherCode: form.voucherCode || '',
           notes: form.notes || '',
           turnstileToken,
         }
@@ -271,6 +281,7 @@ export default function BookingSection() {
               </p>
               <p>Morada: {bookingSummary.location}</p>
               <p>Contacto: {bookingSummary.phone}</p>
+              <p>Voucher: {bookingSummary.voucherCode}</p>
               <a href={bookingSummary.calendarUrl} target="_blank" rel="noreferrer">
                 Adicionar ao Google Calendar
               </a>
@@ -369,6 +380,11 @@ export default function BookingSection() {
               <input name="locality" value={form.locality} onChange={updateField} placeholder="Ex.: Coimbra" required />
             </label>
           </div>
+
+          <label>
+            <span>Código voucher (opcional)</span>
+            <input name="voucherCode" value={form.voucherCode} onChange={updateField} placeholder="Ex.: DEMA-AB12" />
+          </label>
 
           <label>
             <span>Detalhes do pedido</span>

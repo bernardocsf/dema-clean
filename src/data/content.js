@@ -4,6 +4,8 @@ export const company = {
   phoneDisplay: '966 841 525',
   phoneLink: '351966841525',
   email: 'webernardocsf@gmail.com',
+  iban: 'PT50 0002 0123 1234 5678 9015 4',
+  bankName: 'Banco Exemplo',
   instagramHandle: '@demaclean_',
   instagramUrl: 'https://instagram.com/demaclean_',
   area: 'Coimbra, Pombal e região',
@@ -144,3 +146,31 @@ export const toolRecommendations = [
   { name: 'Zapier / Make / n8n', type: 'Automação', status: 'Recomendado' },
   { name: 'Sentry', type: 'Monitorização de erros', status: 'Recomendado' },
 ]
+
+export const aboutMe = {
+  name: 'Bernardo Ferreira',
+  role: 'Fundador e Especialista em Higienização',
+  title: 'Atendimento direto com foco em qualidade e confiança.',
+  description:
+    'Sou o rosto por trás da DEMA Clean e acompanho cada marcação de perto, desde o pedido inicial até à confirmação final. O objetivo é entregar uma experiência simples, profissional e sem complicações.',
+  shortBio:
+    'Mais de 6 anos de experiência em limpeza técnica e detalhe automóvel. Trabalho com processos organizados para garantir resultados consistentes e comunicação clara.',
+  highlights: [
+    {
+      title: 'Experiência prática',
+      text: 'Atendimento em casas, automóveis e soluções infantis com método próprio.',
+    },
+    {
+      title: 'Resposta rápida',
+      text: 'Confirmações e acompanhamento por WhatsApp de forma direta.',
+    },
+    {
+      title: 'Serviço local',
+      text: 'Cobertura na região de Coimbra, Pombal e áreas próximas.',
+    },
+    {
+      title: 'Processo transparente',
+      text: 'Sem ruído: pedido claro, validação rápida e execução organizada.',
+    },
+  ],
+}

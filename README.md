@@ -20,6 +20,8 @@ Plataforma final da DEMA Clean com:
 ```bash
 npm install
 npm run dev
+# noutro terminal
+npm run server
 ```
 
 ## Produção
@@ -69,3 +71,28 @@ npm run deploy
 URL pública esperada:
 
 `https://bernardocsf.github.io/dema-clean/`
+
+## Pagamentos MB Way e Banco (API)
+
+Foi adicionada uma API backend em `backend/server.js` com:
+
+- `POST /api/vouchers/create-payment`
+- `GET /api/payments/:paymentId`
+- `POST /api/webhooks/mbway`
+
+### Configuração rápida
+
+1. Copia `.env.example` para `.env` e preenche as chaves do gateway.
+2. Inicia backend: `npm run server`
+3. Define no frontend: `VITE_PAYMENTS_API_URL=http://localhost:8787`
+
+### MB Way com notificação na app
+
+Para o cliente receber notificação real no MB Way é obrigatório:
+
+- gateway ativo (ex.: EuPago/Ifthenpay),
+- credenciais válidas,
+- backend acessível publicamente,
+- webhook do gateway a apontar para `/api/webhooks/mbway`.
+
+Sem isso, o pedido MB Way não é confirmado automaticamente.

@@ -133,8 +133,10 @@ p {
 
 .nav-shell,
 .hero-layout,
+.about-layout,
 .experience-layout,
 .booking-layout,
+.voucher-layout,
 .contact-layout,
 .footer-shell {
   display: grid;
@@ -229,7 +231,9 @@ p {
 }
 
 .hero-layout,
+.about-layout,
 .booking-layout,
+.voucher-layout,
 .contact-layout {
   grid-template-columns: 1.08fr 0.92fr;
   align-items: center;
@@ -262,9 +266,156 @@ p {
 }
 
 .hero-panel,
+.about-card,
 .booking-card,
+.voucher-card,
 .contact-main {
   padding: clamp(22px, 2.4vw, 34px);
+}
+
+.about-card {
+  text-align: center;
+}
+
+.about-avatar {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.about-card > strong {
+  display: block;
+  font-size: 1.12rem;
+}
+
+.about-card > span {
+  display: block;
+  color: var(--muted);
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.voucher-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
+}
+
+.voucher-layout {
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+
+.voucher-layout .section-heading,
+.voucher-layout .section-heading h2,
+.voucher-layout .section-heading p {
+  max-width: none;
+}
+
+.voucher-amount-wrap {
+  display: grid;
+  gap: 10px;
+}
+
+.voucher-amount-value {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.07);
+  font-size: 0.92rem;
+}
+
+.voucher-range {
+  width: 100%;
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f5f5f5 0%, #dddddd 100%);
+  cursor: pointer;
+  padding: 0;
+}
+
+.payment-box {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  margin: 6px 0 16px;
+  background: rgba(255,255,255,0.03);
+}
+
+.payment-box strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.payment-box p {
+  margin-bottom: 12px;
+}
+
+.voucher-mode-note {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 4px 0 18px;
+  background: rgba(255,255,255,0.03);
+}
+
+.voucher-preview {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.05);
+}
+
+.voucher-preview p {
+  margin: 8px 0 12px;
+  word-break: break-all;
+}
+
+.voucher-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.voucher-step-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.voucher-step-actions .button {
+  flex: 1;
+}
+
+.voucher-range:focus {
+  box-shadow: none;
+}
+
+.voucher-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 2px solid #1a1a1a;
+  background: #ffffff;
+}
+
+.voucher-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 2px solid #1a1a1a;
+  background: #ffffff;
 }
 
 .hero-logo {
@@ -402,6 +553,15 @@ p {
 
 .section-heading.narrow {
   max-width: 660px;
+}
+
+.section-heading h2,
+.contact-main h2 {
+  max-width: none;
+}
+
+.about-layout h2 {
+  max-width: none;
 }
 
 .services-grid {
@@ -751,8 +911,10 @@ textarea:focus-visible {
 @media (max-width: 900px) {
   .nav-shell,
   .hero-layout,
+  .about-layout,
   .experience-layout,
   .booking-layout,
+  .voucher-layout,
   .contact-layout,
   .footer-shell,
   .process-grid,
@@ -779,6 +941,10 @@ textarea:focus-visible {
   .two-columns,
   .services-grid {
     grid-template-columns: 1fr;
+  }
+
+  .voucher-step-actions {
+    flex-direction: column;
   }
 
   .tools-grid {
@@ -832,6 +998,7 @@ textarea:focus-visible {
 
   .hero-panel,
   .booking-card,
+  .voucher-card,
   .contact-main,
   .service-card,
   .review-card,
