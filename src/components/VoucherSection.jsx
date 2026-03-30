@@ -23,11 +23,8 @@ export default function VoucherSection() {
   const [form, setForm] = useState({
     amount: 25,
     buyerName: '',
-    buyerPhone: '',
     buyerEmail: '',
-    receiverName: '',
-    receiverEmail: '',
-    receiverMessage: '',
+    message: '',
     paymentMethod: 'MB Way',
     paymentMbwayPhone: '',
     paymentIban: '',
@@ -42,7 +39,7 @@ export default function VoucherSection() {
   function updateField(event) {
     const { name, value } = event.target
 
-    if (name === 'buyerPhone' || name === 'paymentMbwayPhone') {
+    if (name === 'paymentMbwayPhone') {
       setForm((current) => ({ ...current, [name]: formatPhoneInput(value) }))
       return
     }
@@ -63,22 +60,15 @@ export default function VoucherSection() {
 
   function validateStepOne() {
     const amount = Number(form.amount)
-    const buyerPhoneDigits = form.buyerPhone.replace(/\D/g, '')
 
-    if (!Number.isFinite(amount) || amount < 5 || amount > 100 || amount % 5 !== 0) {
-      setStatus('O valor do voucher deve estar entre 5€ e 100€, em múltiplos de 5.')
+    if (!Number.isFinite(amount) || amount < 25 || amount > 150 || amount % 5 !== 0) {
+      setStatus('O valor do voucher deve estar entre 25€ e 150€, em múltiplos de 5.')
       setStatusType('error')
       return false
     }
 
-    if (buyerPhoneDigits.length !== 9) {
-      setStatus('Insere um telefone de contacto válido com 9 dígitos.')
-      setStatusType('error')
-      return false
-    }
-
-    if (!form.receiverName || !form.receiverEmail) {
-      setStatus('Preenche nome e email do destinatário.')
+    if (!form.buyerEmail) {
+      setStatus('Preenche o email da pessoa que oferece.')
       setStatusType('error')
       return false
     }
@@ -127,11 +117,9 @@ export default function VoucherSection() {
         body: JSON.stringify({
           amount,
           buyerName: form.buyerName,
-          buyerPhone: form.buyerPhone,
           buyerEmail: form.buyerEmail,
-          receiverName: form.receiverName,
-          receiverEmail: form.receiverEmail,
-          receiverMessage: form.receiverMessage,
+          receiverName: '',
+          receiverMessage: form.message || '',
           paymentMethod: form.paymentMethod,
           paymentMbwayPhone: form.paymentMbwayPhone || '',
           paymentIban: form.paymentIban || '',
@@ -212,14 +200,26 @@ export default function VoucherSection() {
           <p className="eyebrow">Vouchers</p>
           <h2>Cria vouchers personalizados de forma simples.</h2>
           <p>
-            Define o valor, para quem é o presente e os detalhes de entrega. O valor começa em 5€ e podes aumentar em
+            Define o valor, para quem é o presente e os detalhes de entrega. O valor começa em 25€ e podes aumentar em
             blocos de 5€.
           </p>
         </div>
 
         <form className="voucher-card card-glow" onSubmit={handleSubmit}>
+          <div className="voucher-form-head">
+            <div className="voucher-steps">
+              <span className={`voucher-step-pill ${step === 1 ? 'is-active' : ''}`}>1. Dados</span>
+              <span className={`voucher-step-pill ${step === 2 ? 'is-active' : ''}`}>2. Pagamento</span>
+            </div>
+            <p className="voucher-step-caption">
+              {step === 1
+                ? 'Preenche os dados do voucher antes de seguir para pagamento.'
+                : 'Escolhe como pagar e conclui o pedido.'}
+            </p>
+          </div>
+
           {step === 1 ? (
-            <>
+            <div className="voucher-step-pane">
               <div className="field-grid two-columns">
                 <label>
                   <span>Valor do voucher (€)</span>
@@ -228,8 +228,8 @@ export default function VoucherSection() {
                       className="voucher-range"
                       name="amount"
                       type="range"
-                      min="5"
-                      max="100"
+                      min="25"
+                      max="150"
                       step="5"
                       value={form.amount}
                       onChange={updateField}
@@ -244,51 +244,27 @@ export default function VoucherSection() {
                 </label>
               </div>
 
-              <div className="field-grid two-columns">
-                <label>
-                  <span>Telefone de contacto</span>
-                  <input
-                    name="buyerPhone"
-                    value={form.buyerPhone}
-                    onChange={updateField}
-                    placeholder="Ex.: 966 841 525"
-                    inputMode="tel"
-                    required
-                  />
-                </label>
-                <label>
-                  <span>Email de quem oferece (opcional)</span>
-                  <input
-                    name="buyerEmail"
-                    type="email"
-                    value={form.buyerEmail}
-                    onChange={updateField}
-                    placeholder="Ex.: cliente@email.com"
-                  />
-                </label>
-              </div>
-
-              <div className="field-grid two-columns">
-                <label>
-                  <span>Nome do destinatário</span>
-                  <input name="receiverName" value={form.receiverName} onChange={updateField} required />
-                </label>
-                <label>
-                  <span>Email do destinatário</span>
-                  <input
-                    name="receiverEmail"
-                    type="email"
-                    value={form.receiverEmail}
-                    onChange={updateField}
-                    placeholder="Ex.: destinatario@email.com"
-                    required
-                  />
-                </label>
-              </div>
+              <label>
+                <span>Email da pessoa que oferece</span>
+                <input
+                  name="buyerEmail"
+                  type="email"
+                  value={form.buyerEmail}
+                  onChange={updateField}
+                  placeholder="Ex.: cliente@email.com"
+                  required
+                />
+              </label>
 
               <label>
-                <span>Mensagem para o destinatário (opcional)</span>
-                <input name="receiverMessage" value={form.receiverMessage} onChange={updateField} placeholder="Ex.: Feliz aniversário!" />
+                <span>Mensagem (opcional)</span>
+                <textarea
+                  name="message"
+                  rows="3"
+                  value={form.message}
+                  onChange={updateField}
+                  placeholder="Ex.: Feliz aniversário!"
+                />
               </label>
 
               <div className="voucher-step-actions">
@@ -296,9 +272,9 @@ export default function VoucherSection() {
                   Prosseguir para pagamento
                 </button>
               </div>
-            </>
+            </div>
           ) : (
-            <>
+            <div className="voucher-step-pane">
               <div className="field-grid two-columns">
                 <label>
                   <span>Método de pagamento</span>
@@ -352,7 +328,7 @@ export default function VoucherSection() {
                   {isSubmitting ? 'A criar pagamento...' : 'Encomendar voucher'}
                 </button>
               </div>
-            </>
+            </div>
           )}
 
           {voucherPreview ? (

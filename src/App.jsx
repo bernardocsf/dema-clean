@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ServicesSection from './components/ServicesSection'
+import GallerySection from './components/GallerySection'
 import AboutSection from './components/AboutSection'
 import BookingSection from './components/BookingSection'
 import VoucherSection from './components/VoucherSection'
@@ -19,11 +20,12 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <ServicesSection />
-        <BookingSection />
-        <ReviewsSection />
-        <VoucherSection />
         <AboutSection />
+        <ServicesSection />
+        <GallerySection />
+        <ReviewsSection />
+        <BookingSection />
+        <VoucherSection />
         <ContactSection />
       </main>
       <Footer />

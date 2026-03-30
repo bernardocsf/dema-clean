@@ -34,10 +34,8 @@ app.post('/api/vouchers/create-payment', async (req, res) => {
     const {
       amount,
       buyerName,
-      buyerPhone,
       buyerEmail,
       receiverName,
-      receiverEmail,
       receiverMessage,
       paymentMethod,
       paymentMbwayPhone,
@@ -45,19 +43,13 @@ app.post('/api/vouchers/create-payment', async (req, res) => {
     } = req.body || {}
 
     const parsedAmount = Number(amount)
-    if (!Number.isFinite(parsedAmount) || parsedAmount < 5 || parsedAmount > 100 || parsedAmount % 5 !== 0) {
-      res.status(400).json({ error: 'Invalid amount. Must be between 5 and 100 and multiple of 5.' })
+    if (!Number.isFinite(parsedAmount) || parsedAmount < 25 || parsedAmount > 150 || parsedAmount % 5 !== 0) {
+      res.status(400).json({ error: 'Invalid amount. Must be between 25 and 150 and multiple of 5.' })
       return
     }
 
-    if (!buyerName || !receiverName || !receiverEmail) {
-      res.status(400).json({ error: 'Missing required names/email.' })
-      return
-    }
-
-    const buyerPhoneClean = cleanPhone(buyerPhone)
-    if (buyerPhoneClean.length !== 9) {
-      res.status(400).json({ error: 'Invalid buyer phone.' })
+    if (!buyerName || !buyerEmail) {
+      res.status(400).json({ error: 'Missing required buyer fields.' })
       return
     }
 
@@ -76,10 +68,8 @@ app.post('/api/vouchers/create-payment', async (req, res) => {
       id: orderId,
       amount: parsedAmount,
       buyerName,
-      buyerPhone: buyerPhoneClean,
-      buyerEmail: buyerEmail || '',
-      receiverName,
-      receiverEmail,
+      buyerEmail,
+      receiverName: receiverName || '',
       receiverMessage: receiverMessage || '',
       paymentMethod: method,
       voucherCode,

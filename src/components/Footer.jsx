@@ -2,25 +2,56 @@ import { company } from '../data/content'
 
 export default function Footer() {
   const logoUrl = `${import.meta.env.BASE_URL}logo.jpg`
+  const year = new Date().getFullYear()
 
   return (
     <footer className="site-footer">
       <div className="container footer-shell">
-        <div className="brand brand-footer">
-          <img src={logoUrl} alt="Logótipo DEMA Clean" className="brand-logo" />
-          <div>
-            <strong>{company.name}</strong>
-            <span>{company.slogan}</span>
+        <div className="footer-identity card-glow">
+          <div className="brand brand-footer">
+            <img src={logoUrl} alt="Logótipo DEMA Clean" className="brand-logo" />
+            <div>
+              <strong>{company.name}</strong>
+              <span>{company.slogan}</span>
+            </div>
           </div>
-        </div>
-
-        <div className="footer-right">
-          <a href={`tel:${company.phoneLink}`}>{company.phoneDisplay}</a>
-          <a href={`mailto:${company.email}`}>{company.email}</a>
-          <a href={company.instagramUrl} target="_blank" rel="noreferrer">
-            {company.instagramHandle}
+          <p className="footer-text">
+            Serviço profissional de higienização com resposta rápida, acompanhamento próximo e foco em qualidade.
+          </p>
+          <a className="button button-primary footer-cta" href="#marcacoes">
+            Fazer marcação
           </a>
         </div>
+
+        <div className="footer-columns">
+          <div className="footer-col">
+            <strong>Serviços</strong>
+            <a href="#servicos">Serviços</a>
+            <a href="#galeria">Galeria</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#vouchers">Vouchers</a>
+          </div>
+
+          <div className="footer-col">
+            <strong>Contactos</strong>
+            <a href={`tel:${company.phoneLink}`}>{company.phoneDisplay}</a>
+            <a href={`mailto:${company.email}`}>{company.email}</a>
+            <a href={company.instagramUrl} target="_blank" rel="noreferrer">
+              {company.instagramHandle}
+            </a>
+          </div>
+
+          <div className="footer-col">
+            <strong>Informação</strong>
+            <span>{company.area}</span>
+            <span>{company.scheduleWeek}</span>
+            <span>{company.scheduleWeekend}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="container footer-bottom">
+        <span>© {year} {company.name}. Todos os direitos reservados.</span>
       </div>
     </footer>
   )

@@ -5,8 +5,9 @@ export default function ReviewsSection() {
     <section className="section" id="reviews">
       <div className="container">
         <div className="section-heading narrow">
-          <p className="eyebrow">Reviews</p>
-          <h2>Feedback real de clientes.</h2>
+          <p className="eyebrow">Depoimentos</p>
+          <h2>Clientes satisfeitos com resultados reais.</h2>
+          <p>Feedback de quem já confiou na DEMA Clean para limpezas técnicas e higienização.</p>
         </div>
 
         <div className="reviews-grid">

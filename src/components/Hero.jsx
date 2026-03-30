@@ -7,19 +7,26 @@ export default function Hero() {
     <section className="hero section" id="inicio">
       <div className="container hero-layout">
         <div>
-          <p className="eyebrow">Higienização profissional em casa e no automóvel</p>
-          <h1>Limpeza profissional com resposta rápida.</h1>
+          <p className="eyebrow">Limpezas residenciais e automóvel</p>
+          <h1>Profissionais em higienização com resposta rápida.</h1>
           <p className="hero-text">
-            Sofás, colchões, carpetes e automóvel. Simples, rápido e com qualidade.
+            Atendimento profissional para casas, sofás, colchões, carpetes e interiores automóveis. Pedido simples,
+            confirmação rápida e serviço com atenção ao detalhe.
           </p>
 
           <div className="hero-actions">
             <a className="button button-primary" href="#marcacoes">
-              Marcar serviço
+              Solicitar orçamento
             </a>
             <a className="button button-secondary" href={`https://wa.me/${company.phoneLink}`} target="_blank" rel="noreferrer">
-              Falar agora
+              Falar no WhatsApp
             </a>
+          </div>
+
+          <div className="hero-meta">
+            <span>{company.phoneDisplay}</span>
+            <span>{company.email}</span>
+            <span>{company.area}</span>
           </div>
         </div>
 

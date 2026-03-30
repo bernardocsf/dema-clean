@@ -11,16 +11,16 @@ Exemplo body:
 {
   "amount": 25,
   "buyerName": "Bernardo",
-  "buyerPhone": "966 841 525",
   "buyerEmail": "cliente@email.com",
   "receiverName": "Cliente B",
-  "receiverEmail": "clienteb@email.com",
   "receiverMessage": "Feliz aniversário",
   "paymentMethod": "MB Way",
   "paymentMbwayPhone": "966 111 222",
   "paymentIban": ""
 }
 ```
+
+`amount` deve estar entre `25` e `150`, em passos de `5`.
 
 ### `GET /api/payments/:paymentId`
 Consulta estado do pagamento (`pending`, `paid`, `failed`, `expired`, `pending_bank_transfer`).

@@ -6,11 +6,11 @@ export default function ContactSection() {
       <div className="container contact-layout">
         <div className="contact-main card-glow">
           <p className="eyebrow">Contactos</p>
-          <h2>
-            Contacto rápido,
-            <br />
-            sem complicações.
-          </h2>
+          <h2>Fale connosco e peça informações sobre o seu serviço.</h2>
+          <p>
+            Atendimento por telefone, WhatsApp e email para pedidos de orçamento, confirmação de disponibilidade e
+            esclarecimento de dúvidas.
+          </p>
         </div>
 
         <div className="contact-grid">
@@ -29,6 +29,14 @@ export default function ContactSection() {
           <div className="contact-card card-glow">
             <span>Zona</span>
             <strong>{company.area}</strong>
+          </div>
+          <div className="contact-card card-glow">
+            <span>Horário</span>
+            <strong>{company.scheduleWeek}</strong>
+          </div>
+          <div className="contact-card card-glow">
+            <span>Disponibilidade extra</span>
+            <strong>{company.scheduleWeekend}</strong>
           </div>
         </div>
       </div>

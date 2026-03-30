@@ -9,6 +9,8 @@ export const company = {
   instagramHandle: '@demaclean_',
   instagramUrl: 'https://instagram.com/demaclean_',
   area: 'Coimbra, Pombal e região',
+  scheduleWeek: 'Segunda a sexta, das 08:00 às 18:00',
+  scheduleWeekend: 'Sábado por marcação e domingos mediante disponibilidade',
   bookingsWebhookUrl: '',
   turnstileSiteKey: '',
 }
@@ -174,3 +176,39 @@ export const aboutMe = {
     },
   ],
 }
+
+export const beforeAfterPhotos = [
+  {
+    title: 'Sofá em tecido',
+    category: 'Casa',
+    beforeImage: 'logo.jpg',
+    afterImage: 'logo.jpg',
+  },
+  {
+    title: 'Banco automóvel',
+    category: 'Automóvel',
+    beforeImage: 'logo.jpg',
+    afterImage: 'logo.jpg',
+  },
+  {
+    title: 'Carrinho de bebé',
+    category: 'Bebé e Infantil',
+    beforeImage: 'logo.jpg',
+    afterImage: 'logo.jpg',
+  },
+]
+
+export const beforeAfterVideos = [
+  {
+    title: 'Detalhe de extração em sofá',
+    category: 'Casa',
+    videoUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+    poster: 'logo.jpg',
+  },
+  {
+    title: 'Acabamento interior automóvel',
+    category: 'Automóvel',
+    videoUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+    poster: 'logo.jpg',
+  },
+]

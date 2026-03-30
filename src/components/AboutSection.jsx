@@ -5,9 +5,10 @@ export default function AboutSection() {
     <section className="section" id="sobre">
       <div className="container about-layout">
         <div>
-          <p className="eyebrow">Sobre mim</p>
-          <h2>{aboutMe.title}</h2>
+          <p className="eyebrow">Sobre</p>
+          <h2>Experiência, confiança e acompanhamento próximo em cada serviço.</h2>
           <p>{aboutMe.description}</p>
+          <p>{aboutMe.shortBio}</p>
 
           <div className="mini-grid">
             {aboutMe.highlights.map((item) => (
@@ -23,7 +24,10 @@ export default function AboutSection() {
           <div className="about-avatar">BF</div>
           <strong>{aboutMe.name}</strong>
           <span>{aboutMe.role}</span>
-          <p>{aboutMe.shortBio}</p>
+          <p>{aboutMe.title}</p>
+          <a className="button button-primary wide-button" href="#contactos">
+            Pedir contacto
+          </a>
         </aside>
       </div>
     </section>
