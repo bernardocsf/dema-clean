@@ -208,8 +208,8 @@ export const beforeAfterPhotos = [
   {
     title: 'Banco automóvel',
     category: 'Automóvel',
-    beforeImage: 'logo.jpg',
-    afterImage: 'logo.jpg',
+    beforeImage: 'banco-auto-antes.png',
+    afterImage: 'banco-auto-depois.png',
   },
   {
     title: 'Carrinho de bebé',

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { beforeAfterPhotos, beforeAfterVideos } from '../data/content'
 
 function getMediaUrl(path) {
@@ -9,6 +9,60 @@ function getMediaUrl(path) {
 
 export default function GallerySection() {
   const [activeImage, setActiveImage] = useState(null)
+  const [activeVideo, setActiveVideo] = useState(null)
+
+  const currentGalleryItem = activeImage !== null ? beforeAfterPhotos[activeImage.itemIndex] : null
+  const currentGalleryImages = currentGalleryItem
+    ? [
+        {
+          src: getMediaUrl(currentGalleryItem.beforeImage),
+          alt: `Antes - ${currentGalleryItem.title}`,
+          label: 'Antes',
+        },
+        {
+          src: getMediaUrl(currentGalleryItem.afterImage),
+          alt: `Depois - ${currentGalleryItem.title}`,
+          label: 'Depois',
+        },
+      ]
+    : []
+  const currentLightboxImage = activeImage !== null ? currentGalleryImages[activeImage.imageIndex] : null
+
+  function openImage(itemIndex, imageIndex) {
+    setActiveImage({ itemIndex, imageIndex })
+  }
+
+  function changeImage(direction) {
+    if (activeImage === null) return
+
+    const totalImages = currentGalleryImages.length
+    const nextIndex = (activeImage.imageIndex + direction + totalImages) % totalImages
+    setActiveImage({ ...activeImage, imageIndex: nextIndex })
+  }
+
+  useEffect(() => {
+    if (activeImage === null) return undefined
+
+    function handleKeyDown(event) {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        changeImage(-1)
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        changeImage(1)
+      }
+
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setActiveImage(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [activeImage, currentGalleryImages.length])
 
   return (
     <section className="section" id="galeria">
@@ -20,7 +74,7 @@ export default function GallerySection() {
         </div>
 
         <div className="gallery-grid">
-          {beforeAfterPhotos.map((item) => (
+          {beforeAfterPhotos.map((item, itemIndex) => (
             <article key={item.title} className="gallery-card card-glow">
               <div className="gallery-head">
                 <strong>{item.title}</strong>
@@ -32,12 +86,7 @@ export default function GallerySection() {
                   <button
                     type="button"
                     className="gallery-image-button"
-                    onClick={() =>
-                      setActiveImage({
-                        src: getMediaUrl(item.beforeImage),
-                        alt: `Antes - ${item.title}`,
-                      })
-                    }
+                    onClick={() => openImage(itemIndex, 0)}
                     aria-label={`Abrir imagem antes de ${item.title}`}
                   >
                     <img src={getMediaUrl(item.beforeImage)} alt={`Antes - ${item.title}`} loading="lazy" />
@@ -48,12 +97,7 @@ export default function GallerySection() {
                   <button
                     type="button"
                     className="gallery-image-button"
-                    onClick={() =>
-                      setActiveImage({
-                        src: getMediaUrl(item.afterImage),
-                        alt: `Depois - ${item.title}`,
-                      })
-                    }
+                    onClick={() => openImage(itemIndex, 1)}
                     aria-label={`Abrir imagem depois de ${item.title}`}
                   >
                     <img src={getMediaUrl(item.afterImage)} alt={`Depois - ${item.title}`} loading="lazy" />
@@ -66,27 +110,49 @@ export default function GallerySection() {
         </div>
 
         <div className="gallery-videos-grid">
-          {beforeAfterVideos.map((video) => (
+          {beforeAfterVideos.map((video) => {
+            const isActive = activeVideo === video.title
+
+            return (
             <article key={video.title} className="gallery-video-card card-glow">
               <div className="gallery-head">
                 <strong>{video.title}</strong>
                 <span>{video.category}</span>
               </div>
 
-              <video
-                controls
-                playsInline
-                preload="none"
-                poster={getMediaUrl(video.poster)}
-                src={getMediaUrl(video.videoUrl)}
-              >
-                O teu browser não conseguiu carregar este vídeo.
-              </video>
+              {isActive ? (
+                <video
+                  controls
+                  playsInline
+                  autoPlay
+                  preload="metadata"
+                  poster={getMediaUrl(video.poster)}
+                  src={getMediaUrl(video.videoUrl)}
+                >
+                  O teu browser não conseguiu carregar este vídeo.
+                </video>
+              ) : (
+                <button
+                  type="button"
+                  className="gallery-video-trigger"
+                  onClick={() => setActiveVideo(video.title)}
+                  aria-label={`Reproduzir vídeo ${video.title}`}
+                >
+                  <img src={getMediaUrl(video.poster)} alt={video.title} loading="lazy" />
+                  <span className="gallery-video-play">
+                    <span className="gallery-video-play-icon" aria-hidden="true">
+                      ▶
+                    </span>
+                    Ver vídeo
+                  </span>
+                </button>
+              )}
             </article>
-          ))}
+            )
+          })}
         </div>
 
-        {activeImage ? (
+        {activeImage && currentLightboxImage && currentGalleryItem ? (
           <div className="gallery-lightbox" role="dialog" aria-modal="true" onClick={() => setActiveImage(null)}>
             <div className="gallery-lightbox-inner" onClick={(event) => event.stopPropagation()}>
               <button
@@ -95,9 +161,64 @@ export default function GallerySection() {
                 onClick={() => setActiveImage(null)}
                 aria-label="Fechar imagem"
               >
-                ×
+                <svg viewBox="0 0 20 20" aria-hidden="true" className="gallery-lightbox-close-icon">
+                  <path
+                    d="M5.5 5.5L14.5 14.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M14.5 5.5L5.5 14.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </button>
-              <img className="gallery-lightbox-image" src={activeImage.src} alt={activeImage.alt} />
+              <button
+                type="button"
+                className="gallery-lightbox-nav gallery-lightbox-nav-prev"
+                onClick={() => changeImage(-1)}
+                aria-label="Ver imagem anterior"
+              >
+                <svg viewBox="0 0 20 20" aria-hidden="true" className="gallery-lightbox-nav-icon">
+                  <path
+                    d="M11.75 4.5L6.25 10L11.75 15.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <div className="gallery-lightbox-frame">
+                <div className="gallery-lightbox-meta">
+                  <strong>{currentGalleryItem.title}</strong>
+                  <span>{currentLightboxImage.label}</span>
+                </div>
+                <img className="gallery-lightbox-image" src={currentLightboxImage.src} alt={currentLightboxImage.alt} />
+              </div>
+              <button
+                type="button"
+                className="gallery-lightbox-nav gallery-lightbox-nav-next"
+                onClick={() => changeImage(1)}
+                aria-label="Ver imagem seguinte"
+              >
+                <svg viewBox="0 0 20 20" aria-hidden="true" className="gallery-lightbox-nav-icon">
+                  <path
+                    d="M8.25 4.5L13.75 10L8.25 15.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         ) : null}
