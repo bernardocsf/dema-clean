@@ -1,4 +1,5 @@
 import { services } from '../data/content'
+import LazyImage from './LazyImage'
 
 function getMediaUrl(path) {
   if (!path) return ''
@@ -20,7 +21,7 @@ export default function ServicesSection() {
           {services.map((service) => (
             <article key={service.title} className="service-card card-glow">
               <div className="service-media">
-                <img className="service-image" src={getMediaUrl(service.image)} alt={service.title} loading="lazy" />
+                <LazyImage className="service-image" src={getMediaUrl(service.image)} alt={service.title} />
               </div>
               <h3>{service.title}</h3>
               <p>{service.text}</p>

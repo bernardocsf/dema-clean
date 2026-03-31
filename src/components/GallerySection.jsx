@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { beforeAfterPhotos, beforeAfterVideos } from '../data/content'
+import LazyImage from './LazyImage'
 
 function getMediaUrl(path) {
   if (!path) return ''
@@ -9,7 +10,6 @@ function getMediaUrl(path) {
 
 export default function GallerySection() {
   const [activeImage, setActiveImage] = useState(null)
-  const [activeVideo, setActiveVideo] = useState(null)
 
   const currentGalleryItem = activeImage !== null ? beforeAfterPhotos[activeImage.itemIndex] : null
   const currentGalleryImages = currentGalleryItem
@@ -88,7 +88,7 @@ export default function GallerySection() {
                     onClick={() => openImage(itemIndex, 0)}
                     aria-label={`Abrir imagem antes de ${item.title}`}
                   >
-                    <img src={getMediaUrl(item.beforeImage)} alt={`Antes - ${item.title}`} loading="lazy" />
+                    <LazyImage src={getMediaUrl(item.beforeImage)} alt={`Antes - ${item.title}`} />
                   </button>
                   <figcaption>Antes</figcaption>
                 </figure>
@@ -99,7 +99,7 @@ export default function GallerySection() {
                     onClick={() => openImage(itemIndex, 1)}
                     aria-label={`Abrir imagem depois de ${item.title}`}
                   >
-                    <img src={getMediaUrl(item.afterImage)} alt={`Depois - ${item.title}`} loading="lazy" />
+                    <LazyImage src={getMediaUrl(item.afterImage)} alt={`Depois - ${item.title}`} />
                   </button>
                   <figcaption>Depois</figcaption>
                 </figure>
@@ -109,45 +109,17 @@ export default function GallerySection() {
         </div>
 
         <div className="gallery-videos-grid">
-          {beforeAfterVideos.map((video) => {
-            const isActive = activeVideo === video.title
-
-            return (
+          {beforeAfterVideos.map((video) => (
             <article key={video.title} className="gallery-video-card card-glow">
               <div className="gallery-head">
                 <strong>{video.title}</strong>
               </div>
 
-              {isActive ? (
-                <video
-                  controls
-                  playsInline
-                  autoPlay
-                  preload="metadata"
-                  poster={getMediaUrl(video.poster)}
-                  src={getMediaUrl(video.videoUrl)}
-                >
-                  O teu browser não conseguiu carregar este vídeo.
-                </video>
-              ) : (
-                <button
-                  type="button"
-                  className="gallery-video-trigger"
-                  onClick={() => setActiveVideo(video.title)}
-                  aria-label={`Reproduzir vídeo ${video.title}`}
-                >
-                  <img src={getMediaUrl(video.poster)} alt={video.title} loading="lazy" />
-                  <span className="gallery-video-play">
-                    <span className="gallery-video-play-icon" aria-hidden="true">
-                      ▶
-                    </span>
-                    Ver vídeo
-                  </span>
-                </button>
-              )}
+              <video controls playsInline preload="metadata" poster={getMediaUrl(video.poster)} src={getMediaUrl(video.videoUrl)}>
+                O teu browser não conseguiu carregar este vídeo.
+              </video>
             </article>
-            )
-          })}
+          ))}
         </div>
 
         {activeImage && currentLightboxImage && currentGalleryItem ? (

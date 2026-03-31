@@ -1,4 +1,5 @@
 import { aboutMe } from '../data/content'
+import LazyImage from './LazyImage'
 
 function getMediaUrl(path) {
   if (!path) return ''
@@ -12,7 +13,7 @@ export default function AboutSection() {
       <div className="container about-reframe">
         <article className="about-reframe-hero card-glow">
           <figure className="about-reframe-media">
-            <img className="about-photo" src={getMediaUrl(aboutMe.image)} alt={aboutMe.name} loading="lazy" />
+            <LazyImage className="about-photo" src={getMediaUrl(aboutMe.image)} alt={aboutMe.name} />
           </figure>
 
           <div className="about-reframe-copy">
