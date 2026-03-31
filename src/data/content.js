@@ -201,19 +201,16 @@ export const aboutMe = {
 export const beforeAfterPhotos = [
   {
     title: 'Sofá em tecido',
-    category: 'Casa',
     beforeImage: 'sofa-antes.png',
     afterImage: 'sofa-depois.png',
   },
   {
-    title: 'Banco automóvel',
-    category: 'Automóvel',
+    title: 'Banco',
     beforeImage: 'banco-auto-antes.png',
     afterImage: 'banco-auto-depois.png',
   },
   {
     title: 'Carrinho de bebé',
-    category: 'Bebé e Infantil',
     beforeImage: 'carrinho-bebe-antes.png',
     afterImage: 'carrinho-bebe-depois.png',
   },
@@ -222,13 +219,11 @@ export const beforeAfterPhotos = [
 export const beforeAfterVideos = [
   {
     title: 'Detalhe de extração em sofá',
-    category: 'Casa',
     videoUrl: 'video1.mov',
     poster: 'logo.jpg',
   },
   {
     title: 'Acabamento interior automóvel',
-    category: 'Automóvel',
     videoUrl: 'video2.mov',
     poster: 'logo.jpg',
   },

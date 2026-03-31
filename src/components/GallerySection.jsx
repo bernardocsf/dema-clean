@@ -78,7 +78,6 @@ export default function GallerySection() {
             <article key={item.title} className="gallery-card card-glow">
               <div className="gallery-head">
                 <strong>{item.title}</strong>
-                <span>{item.category}</span>
               </div>
 
               <div className="before-after-grid">
@@ -117,7 +116,6 @@ export default function GallerySection() {
             <article key={video.title} className="gallery-video-card card-glow">
               <div className="gallery-head">
                 <strong>{video.title}</strong>
-                <span>{video.category}</span>
               </div>
 
               {isActive ? (
