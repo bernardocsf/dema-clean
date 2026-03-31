@@ -73,8 +73,8 @@ export default function GallerySection() {
                 <span>{video.category}</span>
               </div>
 
-              <video controls playsInline preload="metadata" poster={getMediaUrl(video.poster)}>
-                <source src={getMediaUrl(video.videoUrl)} type="video/mp4" />
+              <video controls playsInline preload="metadata" poster={getMediaUrl(video.poster)} src={getMediaUrl(video.videoUrl)}>
+                O teu browser não conseguiu carregar este vídeo.
               </video>
             </article>
           ))}

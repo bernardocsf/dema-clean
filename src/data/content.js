@@ -223,13 +223,15 @@ export const beforeAfterVideos = [
   {
     title: 'Detalhe de extração em sofá',
     category: 'Casa',
-    videoUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+    videoUrl: 'galeria-video-dema.mov',
+    type: 'video/quicktime',
     poster: 'logo.jpg',
   },
   {
     title: 'Acabamento interior automóvel',
     category: 'Automóvel',
     videoUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+    type: 'video/mp4',
     poster: 'logo.jpg',
   },
 ]
