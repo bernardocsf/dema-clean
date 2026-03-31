@@ -6,7 +6,6 @@ import AboutSection from './components/AboutSection'
 import BookingSection from './components/BookingSection'
 import VoucherSection from './components/VoucherSection'
 import ReviewsSection from './components/ReviewsSection'
-import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 import MobileQuickActions from './components/MobileQuickActions'
 import SeoSchema from './components/SeoSchema'
@@ -20,13 +19,12 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <AboutSection />
         <ServicesSection />
-        <GallerySection />
-        <ReviewsSection />
         <BookingSection />
+        <ReviewsSection />
+        <GallerySection />
         <VoucherSection />
-        <ContactSection />
+        <AboutSection />
       </main>
       <Footer />
       <MobileQuickActions />

@@ -14,18 +14,7 @@ export default function Hero() {
             confirmação rápida e serviço com atenção ao detalhe.
           </p>
 
-          <div className="hero-actions">
-            <a className="button button-primary" href="#marcacoes">
-              Solicitar orçamento
-            </a>
-            <a className="button button-secondary" href={`https://wa.me/${company.phoneLink}`} target="_blank" rel="noreferrer">
-              Falar no WhatsApp
-            </a>
-          </div>
-
           <div className="hero-meta">
-            <span>{company.phoneDisplay}</span>
-            <span>{company.email}</span>
             <span>{company.area}</span>
           </div>
         </div>

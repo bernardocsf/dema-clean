@@ -38,34 +38,42 @@ export const services = [
   {
     title: 'Higienização de sofás',
     text: 'Limpeza profunda e recuperação do aspeto.',
+    image: 'https://images.pexels.com/photos/4401538/pexels-photo-4401538.jpeg?cs=srgb&dl=pexels-alonssus-4401538.jpg&fm=jpg',
   },
   {
     title: 'Higienização de colchões',
     text: 'Mais higiene e frescura.',
+    image: 'https://images.pexels.com/photos/8089076/pexels-photo-8089076.jpeg',
   },
   {
     title: 'Higienização de carpetes',
     text: 'Tratamento cuidadoso das fibras.',
+    image: 'https://images.pexels.com/photos/4107284/pexels-photo-4107284.jpeg',
   },
   {
     title: 'Estofos de carro',
     text: 'Interior limpo com detalhe.',
+    image: 'https://images.pexels.com/photos/29909578/pexels-photo-29909578.jpeg?cs=srgb&dl=pexels-kagan-karatay-325143475-29909578.jpg&fm=jpg',
   },
   {
     title: 'Limpeza interior e exterior',
     text: 'Serviço completo no automóvel.',
+    image: 'https://images.pexels.com/photos/6003/man-hand-car-black.jpg?cs=srgb&dl=pexels-karola-g2-6003.jpg&fm=jpg',
   },
   {
     title: 'Polimento de óticas',
     text: 'Óticas mais limpas e claras.',
+    image: 'https://images.pexels.com/photos/14231684/pexels-photo-14231684.jpeg?cs=srgb&dl=pexels-bylukemiller-14231684.jpg&fm=jpg',
   },
   {
     title: 'Carrinhos de bebé',
     text: 'Higienização segura e delicada.',
+    image: 'https://images.pexels.com/photos/7397042/pexels-photo-7397042.jpeg',
   },
   {
     title: 'Cadeiras auto',
     text: 'Limpeza especializada.',
+    image: 'https://images.pexels.com/photos/36552332/pexels-photo-36552332.jpeg?cs=srgb&dl=pexels-charlotteblackcarservice-36552332.jpg&fm=jpg',
   },
 ]
 
@@ -150,29 +158,42 @@ export const toolRecommendations = [
 ]
 
 export const aboutMe = {
-  name: 'Bernardo Ferreira',
-  role: 'Fundador e Especialista em Higienização',
-  title: 'Atendimento direto com foco em qualidade e confiança.',
+  name: 'Meggy & Cláudio',
+  role: 'Fundadores da DEMA',
+  title: 'Uma história que começou em casa e ganhou vida própria.',
+  image: 'ola.jpg',
   description:
-    'Sou o rosto por trás da DEMA Clean e acompanho cada marcação de perto, desde o pedido inicial até à confirmação final. O objetivo é entregar uma experiência simples, profissional e sem complicações.',
+    'A DEMA nasceu quase por acaso, depois de comprarmos uma máquina para uso próprio em casa e partilharmos um antes e depois que despertou interesse imediato.',
   shortBio:
-    'Mais de 6 anos de experiência em limpeza técnica e detalhe automóvel. Trabalho com processos organizados para garantir resultados consistentes e comunicação clara.',
+    'A Meggy traz energia e cuidado. O Cláudio entra com rigor e atenção ao detalhe. Juntos, tratam cada peça como se fosse deles.',
+  mission:
+    'Queremos crescer com consistência e oferecer um serviço de confiança, proximidade e qualidade.',
+  founders: [
+    {
+      initials: 'M',
+      name: 'Meggy',
+      role: 'Energia e paixão pelas transformações',
+      text: 'Mãe, determinada e sempre pronta a arregaçar as mangas.',
+    },
+    {
+      initials: 'C',
+      name: 'Cláudio',
+      role: 'Rigor e detalhe no acabamento',
+      text: 'É o olhar atento da DEMA e garante cuidado em cada serviço.',
+    },
+  ],
   highlights: [
     {
-      title: 'Experiência prática',
-      text: 'Atendimento em casas, automóveis e soluções infantis com método próprio.',
+      title: 'Trabalho com cuidado',
+      text: 'Tratamos cada peça como se fosse nossa.',
     },
     {
-      title: 'Resposta rápida',
-      text: 'Confirmações e acompanhamento por WhatsApp de forma direta.',
+      title: 'Dupla complementar',
+      text: 'Energia de um lado, rigor do outro.',
     },
     {
-      title: 'Serviço local',
-      text: 'Cobertura na região de Coimbra, Pombal e áreas próximas.',
-    },
-    {
-      title: 'Processo transparente',
-      text: 'Sem ruído: pedido claro, validação rápida e execução organizada.',
+      title: 'Missão clara',
+      text: 'Confiança, qualidade e crescimento consistente.',
     },
   ],
 }
@@ -181,8 +202,8 @@ export const beforeAfterPhotos = [
   {
     title: 'Sofá em tecido',
     category: 'Casa',
-    beforeImage: 'logo.jpg',
-    afterImage: 'logo.jpg',
+    beforeImage: 'sofa-antes.png',
+    afterImage: 'sofa-depois.png',
   },
   {
     title: 'Banco automóvel',
@@ -193,8 +214,8 @@ export const beforeAfterPhotos = [
   {
     title: 'Carrinho de bebé',
     category: 'Bebé e Infantil',
-    beforeImage: 'logo.jpg',
-    afterImage: 'logo.jpg',
+    beforeImage: 'carrinho-bebe-antes.png',
+    afterImage: 'carrinho-bebe-depois.png',
   },
 ]
 

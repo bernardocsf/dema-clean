@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { beforeAfterPhotos, beforeAfterVideos } from '../data/content'
 
 function getMediaUrl(path) {
@@ -7,12 +8,14 @@ function getMediaUrl(path) {
 }
 
 export default function GallerySection() {
+  const [activeImage, setActiveImage] = useState(null)
+
   return (
     <section className="section" id="galeria">
       <div className="container">
         <div className="section-heading">
           <p className="eyebrow">Galeria</p>
-          <h2>Antes e depois em fotos e vídeo.</h2>
+          <h2 className="gallery-title-inline">Antes e depois em fotos e vídeo.</h2>
           <p>Resultados reais para mostrar a diferença antes e após a higienização.</p>
         </div>
 
@@ -26,11 +29,35 @@ export default function GallerySection() {
 
               <div className="before-after-grid">
                 <figure>
-                  <img src={getMediaUrl(item.beforeImage)} alt={`Antes - ${item.title}`} loading="lazy" />
+                  <button
+                    type="button"
+                    className="gallery-image-button"
+                    onClick={() =>
+                      setActiveImage({
+                        src: getMediaUrl(item.beforeImage),
+                        alt: `Antes - ${item.title}`,
+                      })
+                    }
+                    aria-label={`Abrir imagem antes de ${item.title}`}
+                  >
+                    <img src={getMediaUrl(item.beforeImage)} alt={`Antes - ${item.title}`} loading="lazy" />
+                  </button>
                   <figcaption>Antes</figcaption>
                 </figure>
                 <figure>
-                  <img src={getMediaUrl(item.afterImage)} alt={`Depois - ${item.title}`} loading="lazy" />
+                  <button
+                    type="button"
+                    className="gallery-image-button"
+                    onClick={() =>
+                      setActiveImage({
+                        src: getMediaUrl(item.afterImage),
+                        alt: `Depois - ${item.title}`,
+                      })
+                    }
+                    aria-label={`Abrir imagem depois de ${item.title}`}
+                  >
+                    <img src={getMediaUrl(item.afterImage)} alt={`Depois - ${item.title}`} loading="lazy" />
+                  </button>
                   <figcaption>Depois</figcaption>
                 </figure>
               </div>
@@ -52,6 +79,22 @@ export default function GallerySection() {
             </article>
           ))}
         </div>
+
+        {activeImage ? (
+          <div className="gallery-lightbox" role="dialog" aria-modal="true" onClick={() => setActiveImage(null)}>
+            <div className="gallery-lightbox-inner" onClick={(event) => event.stopPropagation()}>
+              <button
+                type="button"
+                className="gallery-lightbox-close"
+                onClick={() => setActiveImage(null)}
+                aria-label="Fechar imagem"
+              >
+                ×
+              </button>
+              <img className="gallery-lightbox-image" src={activeImage.src} alt={activeImage.alt} />
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   )

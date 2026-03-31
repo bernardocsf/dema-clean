@@ -1,5 +1,11 @@
 import { services } from '../data/content'
 
+function getMediaUrl(path) {
+  if (!path) return ''
+  if (path.startsWith('http://') || path.startsWith('https://')) return path
+  return `${import.meta.env.BASE_URL}${path}`
+}
+
 export default function ServicesSection() {
   return (
     <section className="section" id="servicos">
@@ -11,9 +17,11 @@ export default function ServicesSection() {
         </div>
 
         <div className="services-grid">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <article key={service.title} className="service-card card-glow">
-              <span className="service-badge">Serviço {String(index + 1).padStart(2, '0')}</span>
+              <div className="service-media">
+                <img className="service-image" src={getMediaUrl(service.image)} alt={service.title} loading="lazy" />
+              </div>
               <h3>{service.title}</h3>
               <p>{service.text}</p>
             </article>

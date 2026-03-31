@@ -18,18 +18,16 @@ export default function Footer() {
           <p className="footer-text">
             Serviço profissional de higienização com resposta rápida, acompanhamento próximo e foco em qualidade.
           </p>
-          <a className="button button-primary footer-cta" href="#marcacoes">
-            Fazer marcação
-          </a>
         </div>
 
         <div className="footer-columns">
           <div className="footer-col">
-            <strong>Serviços</strong>
-            <a href="#servicos">Serviços</a>
+            <strong>Navegação</strong>
+            <a href="#marcacoes">Orçamento</a>
+            <a href="#reviews">Depoimentos</a>
             <a href="#galeria">Galeria</a>
-            <a href="#reviews">Reviews</a>
             <a href="#vouchers">Vouchers</a>
+            <a href="#sobre">Sobre</a>
           </div>
 
           <div className="footer-col">
