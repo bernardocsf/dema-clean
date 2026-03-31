@@ -38,42 +38,42 @@ export const services = [
   {
     title: 'Higienização de sofás',
     text: 'Limpeza profunda e recuperação do aspeto.',
-    image: 'https://images.pexels.com/photos/4401538/pexels-photo-4401538.jpeg?cs=srgb&dl=pexels-alonssus-4401538.jpg&fm=jpg',
+    image: 'https://images.pexels.com/photos/4401538/pexels-photo-4401538.jpeg?auto=compress&cs=tinysrgb&w=900',
   },
   {
     title: 'Higienização de colchões',
     text: 'Mais higiene e frescura.',
-    image: 'https://images.pexels.com/photos/8089076/pexels-photo-8089076.jpeg',
+    image: 'https://images.pexels.com/photos/8089076/pexels-photo-8089076.jpeg?auto=compress&cs=tinysrgb&w=900',
   },
   {
     title: 'Higienização de carpetes',
     text: 'Tratamento cuidadoso das fibras.',
-    image: 'https://images.pexels.com/photos/4107284/pexels-photo-4107284.jpeg',
+    image: 'https://images.pexels.com/photos/4107284/pexels-photo-4107284.jpeg?auto=compress&cs=tinysrgb&w=900',
   },
   {
     title: 'Estofos de carro',
     text: 'Interior limpo com detalhe.',
-    image: 'https://images.pexels.com/photos/29909578/pexels-photo-29909578.jpeg?cs=srgb&dl=pexels-kagan-karatay-325143475-29909578.jpg&fm=jpg',
+    image: 'https://images.pexels.com/photos/29909578/pexels-photo-29909578.jpeg?auto=compress&cs=tinysrgb&w=900',
   },
   {
     title: 'Limpeza interior e exterior',
     text: 'Serviço completo no automóvel.',
-    image: 'https://images.pexels.com/photos/6003/man-hand-car-black.jpg?cs=srgb&dl=pexels-karola-g2-6003.jpg&fm=jpg',
+    image: 'https://images.pexels.com/photos/6003/man-hand-car-black.jpg?auto=compress&cs=tinysrgb&w=900',
   },
   {
     title: 'Polimento de óticas',
     text: 'Óticas mais limpas e claras.',
-    image: 'https://images.pexels.com/photos/14231684/pexels-photo-14231684.jpeg?cs=srgb&dl=pexels-bylukemiller-14231684.jpg&fm=jpg',
+    image: 'https://images.pexels.com/photos/14231684/pexels-photo-14231684.jpeg?auto=compress&cs=tinysrgb&w=900',
   },
   {
     title: 'Carrinhos de bebé',
     text: 'Higienização segura e delicada.',
-    image: 'https://images.pexels.com/photos/7397042/pexels-photo-7397042.jpeg',
+    image: 'https://images.pexels.com/photos/7397042/pexels-photo-7397042.jpeg?auto=compress&cs=tinysrgb&w=900',
   },
   {
     title: 'Cadeiras auto',
     text: 'Limpeza especializada.',
-    image: 'https://images.pexels.com/photos/36552332/pexels-photo-36552332.jpeg?cs=srgb&dl=pexels-charlotteblackcarservice-36552332.jpg&fm=jpg',
+    image: 'https://images.pexels.com/photos/36552332/pexels-photo-36552332.jpeg?auto=compress&cs=tinysrgb&w=900',
   },
 ]
 
@@ -174,18 +174,18 @@ export const aboutMe = {
 export const beforeAfterPhotos = [
   {
     title: 'Sofá em tecido',
-    beforeImage: 'sofa-antes.png',
-    afterImage: 'sofa-depois.png',
+    beforeImage: 'sofa-antes-web.jpg',
+    afterImage: 'sofa-depois-web.jpg',
   },
   {
     title: 'Banco',
-    beforeImage: 'banco-auto-antes.png',
-    afterImage: 'banco-auto-depois.png',
+    beforeImage: 'banco-auto-antes-web.jpg',
+    afterImage: 'banco-auto-depois-web.jpg',
   },
   {
     title: 'Carrinho de bebé',
-    beforeImage: 'carrinho-bebe-antes.png',
-    afterImage: 'carrinho-bebe-depois.png',
+    beforeImage: 'carrinho-bebe-antes-web.jpg',
+    afterImage: 'carrinho-bebe-depois-web.jpg',
   },
 ]
 
