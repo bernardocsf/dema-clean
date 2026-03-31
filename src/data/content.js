@@ -163,38 +163,11 @@ export const aboutMe = {
   title: 'Uma história que começou em casa e ganhou vida própria.',
   image: 'ola.jpg',
   description:
-    'A DEMA nasceu quase por acaso, depois de comprarmos uma máquina para uso próprio em casa e partilharmos um antes e depois que despertou interesse imediato.',
-  shortBio:
-    'A Meggy traz energia e cuidado. O Cláudio entra com rigor e atenção ao detalhe. Juntos, tratam cada peça como se fosse deles.',
-  mission:
-    'Queremos crescer com consistência e oferecer um serviço de confiança, proximidade e qualidade.',
-  founders: [
-    {
-      initials: 'M',
-      name: 'Meggy',
-      role: 'Energia e paixão pelas transformações',
-      text: 'Mãe, determinada e sempre pronta a arregaçar as mangas.',
-    },
-    {
-      initials: 'C',
-      name: 'Cláudio',
-      role: 'Rigor e detalhe no acabamento',
-      text: 'É o olhar atento da DEMA e garante cuidado em cada serviço.',
-    },
-  ],
-  highlights: [
-    {
-      title: 'Trabalho com cuidado',
-      text: 'Tratamos cada peça como se fosse nossa.',
-    },
-    {
-      title: 'Dupla complementar',
-      text: 'Energia de um lado, rigor do outro.',
-    },
-    {
-      title: 'Missão clara',
-      text: 'Confiança, qualidade e crescimento consistente.',
-    },
+    'A DEMA nasceu de forma simples, quase por acaso, depois de comprarmos uma máquina de limpeza para uso próprio em casa e partilharmos um antes e depois que despertou interesse imediato.',
+  paragraphs: [
+    'Por trás do projeto estamos nós, Meggy e Cláudio. A Meggy traz energia, dedicação e uma vontade genuína de transformar cada peça. O Cláudio entra com rigor, atenção ao detalhe e um olhar exigente sobre o resultado final.',
+    'Trabalhamos com proximidade, cuidado e sentido de responsabilidade, tratando cada sofá, colchão, estofo ou carrinho como se fosse nosso.',
+    'Queremos crescer de forma consistente, ajudar quem precisa e construir uma marca de confiança, qualidade e impacto real na vida das pessoas.',
   ],
 }
 

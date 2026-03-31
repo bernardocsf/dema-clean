@@ -19,6 +19,9 @@ export default function AboutSection() {
             <p className="eyebrow">Sobre Nós</p>
             <h2>{aboutMe.title}</h2>
             <p>{aboutMe.description}</p>
+            {aboutMe.paragraphs?.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
             <div className="about-reframe-signature">
               <strong>{aboutMe.name}</strong>
               <span>{aboutMe.role}</span>
