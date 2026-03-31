@@ -26,7 +26,6 @@ export default function Footer() {
             <a href="#marcacoes">Orçamento</a>
             <a href="#reviews">Depoimentos</a>
             <a href="#galeria">Galeria</a>
-            <a href="#vouchers">Vouchers</a>
             <a href="#sobre">Sobre</a>
           </div>
 

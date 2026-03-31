@@ -196,7 +196,6 @@ p {
 .about-layout,
 .experience-layout,
 .booking-layout,
-.voucher-layout,
 .contact-layout,
 .footer-shell {
   display: grid;
@@ -294,7 +293,6 @@ p {
 .hero-layout,
 .about-layout,
 .booking-layout,
-.voucher-layout,
 .contact-layout {
   grid-template-columns: 1.08fr 0.92fr;
   align-items: center;
@@ -331,7 +329,6 @@ p {
 .hero-panel,
 .about-card,
 .booking-card,
-.voucher-card,
 .contact-main {
   padding: clamp(22px, 2.4vw, 34px);
 }
@@ -370,310 +367,53 @@ p {
   display: block;
 }
 
-.about-title-inline {
-  white-space: normal;
-  text-wrap: balance;
-}
-
-.about-clean-shell {
+.about-reframe {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 24px;
-  align-items: stretch;
 }
 
-.about-clean-media {
-  position: relative;
+.about-reframe-hero {
+  display: grid;
+  grid-template-columns: 0.68fr 1.32fr;
+  gap: 0;
   overflow: hidden;
-  min-height: 540px;
   padding: 0;
 }
 
-.about-clean-media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 34%, rgba(4,4,4,0.14) 60%, rgba(4,4,4,0.82) 100%);
+.about-reframe-media {
+  margin: 0;
+  min-height: 360px;
 }
 
-.about-clean-caption {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-  z-index: 1;
-  display: grid;
-  gap: 5px;
+.about-reframe-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(24px, 3vw, 40px);
 }
 
-.about-clean-caption strong {
-  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
-  line-height: 1;
-}
-
-.about-clean-caption span {
-  color: #d7d7d7;
-}
-
-.about-clean-content {
-  display: grid;
-  gap: 16px;
-}
-
-.about-clean-intro,
-.about-clean-founder,
-.about-clean-mission {
-  padding: 22px;
-}
-
-.about-clean-intro p:last-child,
-.about-clean-founder-copy p:last-child,
-.about-clean-mission p:last-child {
+.about-reframe-copy p:last-of-type {
   margin-bottom: 0;
 }
 
-.about-clean-founders {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+.about-reframe-copy h2 {
+  max-width: 13ch;
 }
 
-.about-clean-founder {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 14px;
-  align-items: start;
-}
-
-.about-clean-founder .about-avatar {
-  margin: 0;
-  width: 50px;
-  height: 50px;
-  font-size: 0.98rem;
-}
-
-.about-clean-founder-copy {
+.about-reframe-signature {
   display: grid;
   gap: 4px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
 }
 
-.about-clean-founder-copy strong {
-  font-size: 1rem;
+.about-reframe-signature strong {
+  font-size: 1.05rem;
 }
 
-.about-clean-founder-copy span {
+.about-reframe-signature span {
   color: var(--muted);
   font-size: 0.92rem;
-  line-height: 1.45;
-}
-
-.about-clean-founder-copy p {
-  font-size: 0.94rem;
-}
-
-.about-clean-mission {
-  background:
-    radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 30%),
-    linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035));
-}
-
-.about-clean-mission-text {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #f0f0f0;
-  margin: 0 0 16px;
-}
-
-.about-clean-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.about-clean-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 9px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,0.04);
-  color: #f0f0f0;
-  font-size: 0.86rem;
-}
-
-.voucher-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255,255,255,0.16);
-}
-
-.voucher-layout {
-  grid-template-columns: 1fr;
-  align-items: stretch;
-}
-
-.voucher-layout .section-heading,
-.voucher-layout .section-heading h2,
-.voucher-layout .section-heading p {
-  max-width: none;
-}
-
-.voucher-form-head {
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 16px;
-  background: rgba(255,255,255,0.03);
-}
-
-.voucher-steps {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.voucher-step-pill {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 7px 12px;
-  font-size: 0.8rem;
-  color: var(--muted);
-  background: rgba(255,255,255,0.02);
-}
-
-.voucher-step-pill.is-active {
-  color: #090909;
-  background: #f5f5f5;
-  border-color: #f5f5f5;
-  font-weight: 700;
-}
-
-.voucher-step-caption {
-  margin: 10px 0 0;
-}
-
-.voucher-step-pane {
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 18px;
-  background: rgba(255,255,255,0.02);
-}
-
-.voucher-step-pane label:last-of-type {
-  margin-bottom: 10px;
-}
-
-.voucher-amount-wrap {
-  display: grid;
-  gap: 10px;
-}
-
-.voucher-amount-value {
-  display: inline-flex;
-  width: fit-content;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,0.07);
-  font-size: 0.92rem;
-}
-
-.voucher-range {
-  width: 100%;
-  height: 8px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #ffffff 0%, #d8d8d8 100%);
-  cursor: pointer;
-  padding: 0;
-}
-
-.payment-box {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  margin: 6px 0 16px;
-  background: rgba(255,255,255,0.03);
-}
-
-.payment-box strong {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.payment-box p {
-  margin-bottom: 12px;
-}
-
-.voucher-mode-note {
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px;
-  margin: 4px 0 18px;
-  background: rgba(255,255,255,0.03);
-}
-
-.voucher-preview {
-  margin-top: 14px;
-  padding: 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.08);
-}
-
-.voucher-preview p {
-  margin: 8px 0 12px;
-  word-break: break-all;
-}
-
-.voucher-preview-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.voucher-step-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.voucher-step-actions .button {
-  flex: 1;
-}
-
-.voucher-range:focus {
-  box-shadow: none;
-}
-
-.voucher-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  border: 2px solid #1a1a1a;
-  background: #ffffff;
-}
-
-.voucher-range::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  border: 2px solid #1a1a1a;
-  background: #ffffff;
-}
-
-.voucher-card label span {
-  font-size: 0.9rem;
-  letter-spacing: 0.01em;
-}
-
-.voucher-card input,
-.voucher-card select,
-.voucher-card textarea {
-  background: rgba(255,255,255,0.05);
-  border-color: rgba(255,255,255,0.18);
 }
 
 .hero-logo {
@@ -1115,6 +855,11 @@ p {
   color: #ffffff;
 }
 
+.booking-title-inline span {
+  display: block;
+  white-space: nowrap;
+}
+
 .field-grid {
   display: grid;
   gap: 16px;
@@ -1490,7 +1235,6 @@ textarea:focus-visible {
   .hero-layout,
   .experience-layout,
   .booking-layout,
-  .voucher-layout,
   .contact-layout,
   .footer-shell,
   .process-grid,
@@ -1524,13 +1268,8 @@ textarea:focus-visible {
     grid-template-columns: 1fr;
   }
 
-  .about-clean-shell,
-  .about-clean-founders {
+  .about-reframe-hero {
     grid-template-columns: 1fr;
-  }
-
-  .voucher-step-actions {
-    flex-direction: column;
   }
 
   .tools-grid {
@@ -1601,7 +1340,6 @@ textarea:focus-visible {
 
   .hero-panel,
   .booking-card,
-  .voucher-card,
   .contact-main,
   .service-card,
   .review-card,

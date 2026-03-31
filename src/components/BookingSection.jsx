@@ -6,7 +6,10 @@ export default function BookingSection() {
       <div className="container booking-layout">
         <div>
           <p className="eyebrow">Contacto Direto</p>
-          <h2>Fala connosco por telefone para marcar o serviço.</h2>
+          <h2 className="booking-title-inline">
+            <span>Fala connosco por telefone</span>
+            <span>para marcar o serviço.</span>
+          </h2>
           <p>
             Para garantir resposta imediata e evitar conflitos de disponibilidade, as marcações são tratadas por
             contacto direto. Liga para a DEMA Clean e confirmamos tudo no momento.

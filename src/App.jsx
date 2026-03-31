@@ -4,7 +4,6 @@ import ServicesSection from './components/ServicesSection'
 import GallerySection from './components/GallerySection'
 import AboutSection from './components/AboutSection'
 import BookingSection from './components/BookingSection'
-import VoucherSection from './components/VoucherSection'
 import ReviewsSection from './components/ReviewsSection'
 import Footer from './components/Footer'
 import MobileQuickActions from './components/MobileQuickActions'
@@ -23,7 +22,6 @@ export default function App() {
         <BookingSection />
         <ReviewsSection />
         <GallerySection />
-        <VoucherSection />
         <AboutSection />
       </main>
       <Footer />

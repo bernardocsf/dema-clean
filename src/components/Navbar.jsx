@@ -75,7 +75,6 @@ export default function Navbar() {
             <a href="#servicos">Serviços</a>
             <a href="#reviews">Depoimentos</a>
             <a href="#galeria">Galeria</a>
-            <a href="#vouchers">Vouchers</a>
             <a href="#sobre">Sobre</a>
           </nav>
 
