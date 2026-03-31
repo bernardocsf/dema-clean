@@ -1257,7 +1257,17 @@ textarea:focus-visible {
     max-width: none;
   }
 
-  .services-title-inline {
+  h2 {
+    text-wrap: balance;
+  }
+
+  .services-title-inline,
+  .reviews-title-inline,
+  .gallery-title-inline {
+    white-space: normal;
+  }
+
+  .booking-title-inline span {
     white-space: normal;
   }
 
@@ -1336,6 +1346,11 @@ textarea:focus-visible {
   .section {
     padding-top: 64px;
     padding-bottom: 64px;
+  }
+
+  h2 {
+    font-size: clamp(1.7rem, 7vw, 2.2rem);
+    line-height: 1.12;
   }
 
   .hero-panel,
