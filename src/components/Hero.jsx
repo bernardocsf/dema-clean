@@ -24,7 +24,17 @@ export default function Hero() {
           <div className="hero-stats">
             {features.map((item) => (
               <div key={item} className="stat-box">
-                <strong>✔</strong>
+                <strong aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none" className="stat-box-icon">
+                    <path
+                      d="M4.5 10.5L8.2 14.2L15.5 6.8"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </strong>
                 <span>{item}</span>
               </div>
             ))}
