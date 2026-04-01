@@ -1,6 +1,8 @@
 import { reviews } from '../data/content'
 
 export default function ReviewsSection() {
+  const marqueeReviews = reviews.length > 1 ? [...reviews, ...reviews] : reviews
+
   return (
     <section className="section" id="reviews">
       <div className="container">
@@ -14,8 +16,8 @@ export default function ReviewsSection() {
           <div className="reviews-track">
             {[0, 1].map((groupIndex) => (
               <div key={groupIndex} className="reviews-group" aria-hidden={groupIndex === 1}>
-                {reviews.map((review) => (
-                  <article key={`${groupIndex}-${review.name}`} className="review-card card-glow">
+                {marqueeReviews.map((review, reviewIndex) => (
+                  <article key={`${groupIndex}-${review.name}-${reviewIndex}`} className="review-card card-glow">
                     <div className="review-head">
                       <div className="review-avatar">{review.avatar}</div>
                       <div>
